@@ -44,3 +44,11 @@ page '/*.txt', layout: false
 #   activate :minify_css
 #   activate :minify_javascript
 # end
+#
+#
+configure :deploy do
+  activate :minify_css
+  activate :minfy_javascripti
+end
+
+activate :livereload, livereload_css_target: nil
