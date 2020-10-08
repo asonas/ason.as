@@ -1,0 +1,81 @@
+body {
+  background-color: #fafafa;
+  color: #4b4f54;
+  font-size: 14px;
+
+  h1 {
+    font-size: 7rem;
+  }
+
+  .container {
+    width: 1000px;
+  }
+}
+.about-asonas {
+  margin-top: 50px;
+  margin-bottom: 40px;
+
+  .icon {
+    width: 150px;
+
+    img {
+      width: 100%;
+      border-radius: 150px;
+    }
+  }
+
+  .personal-information {
+    .name {
+      margin-bottom: 0;
+      margin-right: 10px;
+      font-weight: 300;
+    }
+    small {
+      font-size: 50%;
+      margin-left: 20px;
+      font-weight: bold;
+    }
+  }
+}
+.links {
+  margin-bottom: 30px;
+  a.vertical-align-middle {
+    line-height: 210px;
+    vertical-align: middle;
+  }
+
+  a {
+    display: block;
+    text-align: center;
+    i.fa {
+      font-size: 220px;
+    }
+
+    img {
+      width: 200px;
+    }
+
+    .fa-facebook {
+      color: #354B8E
+    }
+    .fa-twitter {
+      color: #4298ed;
+    }
+
+    .fa-instagram {
+      color: #355E89;
+    }
+    .fa-flickr {
+      color: #202023;
+    }
+    .fa-github {
+      color: #272727;
+    }
+    .fa-tumblr-square {
+      color: #29354b;
+    }
+    .fa-amazon {
+      color: #fc8800;
+    }
+  }
+}
