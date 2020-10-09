@@ -4,11 +4,10 @@ body {
   font-size: 14px; }
   body h1 {
     font-size: 5rem; }
-  body .container {
-    width: 1000px; }
   body .col-2 {
     justify-content: center;
     align-items: center;
+    text-align: center;
     margin-bottom: 10px;}
 .about-asonas {
   margin-top: 50px;
@@ -31,13 +30,11 @@ body {
   .links a.vertical-align-middle {
     line-height: 120px;
     vertical-align: middle; }
-  .links a {
-    display: block;
-    font-size: 10rem; }
+  .links a { }
     .links a i.fa {
-      font-size: 10vw; }
+      font-size: min(8vw, 10vw); }
     .links a img {
-      width: 100px; }
+      width: 8vw; }
     .links a .fa-facebook {
       color: #354B8E; }
     .links a .fa-twitter {
