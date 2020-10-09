@@ -32,7 +32,8 @@ body {
     line-height: 120px;
     vertical-align: middle; }
   .links a {
-    display: block; }/
+    display: block;
+    font-size: 10rem; }
     .links a i.fa {
       font-size: 10vw; }
     .links a img {
