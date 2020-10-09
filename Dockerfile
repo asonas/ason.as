@@ -1,11 +1,10 @@
-from ruby:3.0.0-preview1
-
-COPY Gemfile /tmp/Gemfile
-COPY Gemfile.lock /tmp/Gemfile.lock
-RUN cd /tmp && bundle install -j4
+FROM ruby:3.0.0-preview1
 
 WORKDIR /app
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+RUN bundle install -j4
+
 COPY . /app
-RUN cp -a /tmp/.bundle /tmp/vendor /app/
 
 CMD ["bundle", "exec", "rackup", "config.ru", "-p", "4567"]
