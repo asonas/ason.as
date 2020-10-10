@@ -1,0 +1,9 @@
+.articles
+  - @articles.each do |article|
+    %a.article{ href: article.path }
+      %strong= article.title
+      %p
+        = "#{article.body[0..140]}..."
+        %br
+        %small= article.updated_at
+

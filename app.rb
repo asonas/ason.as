@@ -13,8 +13,13 @@ class Asns < Sinatra::Base
     haml :index
   end
 
+  get '/articles' do
+    @articles = Article.recent
+    haml :articles_index
+  end
+
   get '/articles/:id' do
     @article = Article.find_by(params[:id])
-    haml :show
+    haml :articles_show
   end
 end
