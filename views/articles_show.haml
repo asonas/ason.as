@@ -1,5 +1,6 @@
-%h2= @article.title
-%small= @article.updated_at
-%hr.dotted
+%article
+  %h2= @article.title
+  %small= @article.updated_at
+  %hr.dotted
 
-= @article.rendered_body
+  = @article.rendered_body

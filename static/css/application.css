@@ -2,13 +2,29 @@ body {
   background-color: #fafafa;
   color: #4b4f54;
   font-size: 14px; }
-  body h1 {
-    font-size: 5rem; }
+  body .logo {
+    font-size: 3rem;
+    margin-right: auto; }
   body .col-2 {
     justify-content: center;
     align-items: center;
     text-align: center;
     margin-bottom: 10px;}
+a {
+  color: #4b4f54;
+}
+a:visited {
+  color: #4b4f54;
+}
+article {
+  width: 70%;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.7rem;
+}
+hr.dotted {
+  border-top: 1px dotted rgba(0,0,0,.1)
+}
 .about-asonas {
   margin-top: 50px;
   margin-bottom: 40px; }
@@ -61,6 +77,10 @@ body {
   .links a.vertical-align-middle {
     line-height: 130px;
     vertical-align: middle; }
+  article {
+    width: 100%;
+    margin: 0 auto;
+  }
 }
 
 @media screen and (min-width:768px) and ( max-width:1024px) {
@@ -76,6 +96,10 @@ body {
   }
   .links a img {
     width: 10vw;
+  }
+  article {
+    width: 80%;
+    margin: 0 auto;
   }
 }
 
