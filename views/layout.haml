@@ -3,14 +3,24 @@
   %head
     %title= "ason.as"
     %meta{ "http-equiv" => "Content-Type", content: "html/haml; charset=UTF-8" }
-    %meta{ name: "viewport", content: "width=360,initial-scale=1" }
+    %meta{ name: "viewport", content: "width=device-width,initial-scale=1" }
     %link{ rel: "stylesheet", href: "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity: "sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin: "anonymous" }
     %script{ src: "https://kit.fontawesome.com/f10d15f462.js", crossorigin: "anonymous" }
     %link{ rel: "stylesheet", href: "/css/application.css"}
 
   %body
     .container
-      %h1 ason.as
+      %nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        %a.navbar-brand.logo.mr-auto{:href => "#"} ason.as
+        %ul.navbar-nav
+          %li.nav-item.active
+            %a.nav-link{:href => "/"}
+              トップ
+          %li.nav-item
+            %a.nav-link{href: "/feed"}
+              Feed(RSS 2.0)
+      %hr
+
       = yield
       %footer
         asonas a.k.a Yuya Fujiwara
