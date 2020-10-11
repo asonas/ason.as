@@ -22,4 +22,9 @@ class Asns < Sinatra::Base
     @article = Article.find_by(params[:id])
     haml :articles_show
   end
+
+  get '/feed', provides: ["rss", "xml", "atom"] do
+    @articles = Article.all
+    erb :feed
+  end
 end

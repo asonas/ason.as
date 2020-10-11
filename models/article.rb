@@ -2,6 +2,16 @@ require 'redcarpet'
 require 'yaml'
 require 'pry'
 class Article
+  def self.all
+    r = []
+    Dir.glob("./articles/*.md").sort.reverse.each do |a|
+      id = File.basename(a, ".md")
+      r.push find_by(id)
+    end
+
+    r
+  end
+
   def self.recent
     r = []
     Dir.glob("./articles/*.md").sort.reverse.take(5).each do |a|
@@ -36,6 +46,18 @@ class Article
 
   def body
     contents[:body]
+  end
+
+  def summary
+    body[0..140] + "..."
+  end
+
+  def url
+    "https://ason.as/#{path}"
+  end
+
+  def published_at
+    date.rfc822
   end
 
   def date
