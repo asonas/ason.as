@@ -3,7 +3,7 @@
     %a.article{ href: article.path }
       %strong= article.title
       %p
-        = "#{article.body[0..140]}..."
+        = "#{CGI.escapeHTML(article.summary)}..."
         %br
         %small= article.updated_at
 
