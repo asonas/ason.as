@@ -14,7 +14,7 @@ class Asns < Sinatra::Base
   end
 
   get '/articles' do
-    @articles = Article.recent
+    @articles = Article.all
     haml :articles_index
   end
 

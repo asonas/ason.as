@@ -1,9 +1,8 @@
-.articles
+%article.articles
   - @articles.each do |article|
     %a.article{ href: article.path }
       %strong= article.title
       %p
-        = "#{article.body[0..140]}..."
+        = CGI.escapeHTML "#{article.body[0..140]}..."
         %br
-        %small= article.updated_at
-
+        %small= article.created_at.strftime("%Y-%m-%d %H:%M:%S")

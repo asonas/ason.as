@@ -5,7 +5,7 @@
       %p
         = "#{CGI.escapeHTML(article.summary)}..."
         %br
-        %small= article.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+        %small= article.created_at.strftime("%Y-%m-%d %H:%M:%S")
 
 %hr
 

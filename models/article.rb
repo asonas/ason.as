@@ -60,6 +60,10 @@ class Article
     date.rfc822
   end
 
+  def created_at
+    date
+  end
+
   def date
     meta['date']
   end
