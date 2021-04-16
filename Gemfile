@@ -1,9 +1,11 @@
 source 'https://rubygems.org/'
 
 gem 'haml'
+gem 'html-pipeline'
 gem 'nice-n-easy'
 gem 'pry'
 gem 'puma'
+gem 'rake'
 gem 'redcarpet'
 gem 'sinatra'
 gem 'sinatra-contrib'

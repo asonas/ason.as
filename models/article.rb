@@ -1,4 +1,5 @@
 require 'redcarpet'
+require 'html/pipeline'
 require 'yaml'
 require 'pry'
 class Article
@@ -69,13 +70,16 @@ class Article
   end
 
   def rendered_body
-    markdown = Redcarpet::Markdown.new(
-      Redcarpet::Render::HTML,
-      autolink: true,
-      fenced_code_blocks: true,
-      no_intra_emphasis: true
-     )
-      markdown.render(body)
+    pipeline = HTML::Pipeline.new(
+      [
+
+        MarkdownFilter,
+        BlockquotesFilter,
+        ImageTagFilter,
+      ]
+    )
+    result = pipeline.call(body)
+    result[:output].to_s
   end
 
   def meta
@@ -88,5 +92,43 @@ class Article
       body: array[2],
       meta: YAML.load(array[1])
     }
+  end
+
+  class MarkdownFilter < HTML::Pipeline::TextFilter
+    def call
+      markdown = Redcarpet::Markdown.new(
+        Redcarpet::Render::HTML,
+        autolink: true,
+        fenced_code_blocks: true,
+        no_intra_emphasis: true
+      )
+      res = markdown.render(@text)
+      Nokogiri::HTML.fragment(res)
+    end
+  end
+
+  class BlockquotesFilter < HTML::Pipeline::Filter
+    def call
+      doc.search('blockquote').each do |e|
+        next if e.attributes["class"]&.value == "twitter-tweet"
+        e[:class] = "blockquote"
+        e.children.search('p').each do |d|
+          d[:class] = "mb-0"
+        end
+      end
+
+      doc
+    end
+  end
+
+  class ImageTagFilter < HTML::Pipeline::Filter
+    def call
+      doc.search('img').each do |img|
+        img[:src] = img[:src].gsub(/^\/static/, "")
+        img[:class] = "img-fluid"
+      end
+
+      doc
+    end
   end
 end

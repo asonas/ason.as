@@ -70,6 +70,53 @@ hr.dotted {
 
 .articles a.article {
   color: #666; }
+
+blockquote {
+    position: relative;
+    padding: 10px 12px;
+    box-sizing: border-box;
+    font-style: italic;
+    color: #464646;
+    border-left: solid 40px #c4c4c4;
+    background: #f3f3f3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.19);
+}
+
+blockquote:before{
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: -32px;
+    -ms-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    content: "\f10d";
+    font-family: FontAwesome;
+    color: #FFF;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 900;
+}
+
+blockquote p {
+    position: relative;
+    padding: 0;
+    margin: 10px 0;
+    z-index: 3;
+    line-height: 1.7;
+}
+
+blockquote cite {
+    display: block;
+    text-align: right;
+    color: #888888;
+    font-size: 0.9em;
+}
+
+img {
+  margin: 15px 0;
+}
+
 @media screen and (max-width:767px) {
   body h1 {
     font-size: 3rem;
