@@ -36,7 +36,7 @@ GEM
     rack-protection (2.1.0)
       rack
     rake (13.0.3)
-    redcarpet (3.5.0)
+    redcarpet (3.5.1)
     ruby2_keywords (0.0.2)
     sinatra (2.1.0)
       mustermann (~> 1.0)
