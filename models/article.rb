@@ -54,7 +54,7 @@ class Article
   end
 
   def url
-    "https://ason.as#{path}"
+    "https://www.ason.as#{path}"
   end
 
   def published_at
