@@ -1,8 +1,8 @@
 %article.articles
   - @articles.each do |article|
-    %a.article{ href: article.path }
-      %strong= article.title
+    %a.article.text-decoration-none{ href: article.path }
+      %strong.text-decoration-underline= article.title
       %p
-        = CGI.escapeHTML "#{article.body[0..140]}..."
+        = CGI.escapeHTML "#{article.summary}..."
         %br
         %small= article.created_at.strftime("%Y-%m-%d %H:%M:%S")

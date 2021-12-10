@@ -1,7 +1,7 @@
 %article.articles
   - @articles.each do |article|
-    %a.article{ href: article.path }
-      %strong= article.title
+    %a.article.text-decoration-none{ href: article.path }
+      %strong.text-decoration-underline= article.title
       %p
         = "#{CGI.escapeHTML(article.summary)}..."
         %br
