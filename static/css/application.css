@@ -58,9 +58,10 @@ hr.dotted {
     display: block;
     text-align: center; }
     .links a i.fa {
-      font-size: 220px; }
+      font-size: 180px; }
     .links a img {
-      width: 200px; }
+      width: 200px;
+      margin: 0; }
     .links a .fa-facebook {
       color: #354b8e; }
     .links a .fa-twitter {
