@@ -49,8 +49,13 @@ class Article
     contents[:body]
   end
 
+  def body_only_text
+    doc = Nokogiri::HTML.parse(self.rendered_body)
+    doc.text
+  end
+
   def summary
-    body[0..140] + "..."
+    body[0..100] + "..."
   end
 
   def url

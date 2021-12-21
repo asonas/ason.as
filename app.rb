@@ -10,16 +10,30 @@ class Asns < Sinatra::Base
 
   get '/' do
     @articles = Article.recent
+    @title = "ason.as"
+    @description = "@asonasのブログ"
+    @url = "https://www.ason.as/"
+    @image = "https://www.ason.as/images/ogpimage.png"
     haml :index
   end
 
   get '/articles' do
     @articles = Article.all
+    @title = "ason.as | Articles"
+    @description = "@asonasのブログ"
+    @url = "https://www.ason.as/articles"
+    @image = "https://www.ason.as/images/ogpimage.png"
+
     haml :articles_index
   end
 
   get '/articles/:id' do
     @article = Article.find_by(params[:id])
+    @title = "ason.as | #{@article.title}"
+    @description = @article.body_only_text[..100] + "..."
+    @url = @article.url
+    @image = "https://www.ason.as/images/ogpimage.png"
+
     haml :articles_show
   end
 
