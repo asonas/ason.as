@@ -30,7 +30,7 @@ class Asns < Sinatra::Base
   get '/articles/:id' do
     @article = Article.find_by(params[:id])
     @title = "ason.as | #{@article.title}"
-    @description = @article.body_only_text[..100] + "..."
+    @description = @article.body_only_text[0..100] + "..."
     @url = @article.url
     @image = "https://www.ason.as/images/ogpimage.png"
 
