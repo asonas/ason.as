@@ -13,7 +13,7 @@ class Asns < Sinatra::Base
     @title = "ason.as"
     @description = "@asonasのブログ"
     @url = "https://www.ason.as/"
-    @image = "https://www.ason.as/images/ogpimage.png"
+    @image = "https://www.ason.as/images/ogimage.png"
     haml :index
   end
 
@@ -22,7 +22,7 @@ class Asns < Sinatra::Base
     @title = "ason.as | Articles"
     @description = "@asonasのブログ"
     @url = "https://www.ason.as/articles"
-    @image = "https://www.ason.as/images/ogpimage.png"
+    @image = "https://www.ason.as/images/ogimage.png"
 
     haml :articles_index
   end
@@ -32,7 +32,7 @@ class Asns < Sinatra::Base
     @title = "ason.as | #{@article.title}"
     @description = @article.body_only_text[0..100] + "..."
     @url = @article.url
-    @image = "https://www.ason.as/images/ogpimage.png"
+    @image = "https://www.ason.as/images/ogimage.png"
 
     haml :articles_show
   end
