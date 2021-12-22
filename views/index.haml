@@ -3,7 +3,7 @@
     %a.article.text-decoration-none{ href: article.path }
       %strong.text-decoration-underline= article.title
       %p
-        = "#{CGI.escapeHTML(article.summary)}..."
+        = "#{CGI.escapeHTML(article.body_only_text[0..100])}..."
         %br
         %small= article.created_at.strftime("%Y-%m-%d %H:%M:%S")
 
