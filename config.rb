@@ -40,9 +40,14 @@ helpers do
   end
 end
 
+page "/articles", layout: "layout"
+page "/articles/*", layout: "layout"
+
+proxy("/articles", "articles/index.html", locals: { articles: Article.all })
 Article.all.each do |article|
   proxy(article.path, "articles/show.html", locals: { article: article })
 end
+proxy("/feed", "feed.xml", locals: { articles: Article.all })
 
 activate :external_pipeline, {
   name: :webpack,
