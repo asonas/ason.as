@@ -5,6 +5,8 @@ activate :autoprefixer do |prefix|
   prefix.browsers = "last 2 versions"
 end
 
+set :haml, format: :html5
+
 # Layouts
 # https://middlemanapp.com/basics/layouts/
 
@@ -30,6 +32,18 @@ page '/*.txt', layout: false
 # Helpers
 # Methods defined in the helpers block are available in templates
 # https://middlemanapp.com/basics/helper-methods/
+require './models/article'
+
+helpers do
+  def articles
+    Article.all
+  end
+end
+
+Article.all.each do |article|
+  proxy(article.path, "articles/show.html", locals: { article: article })
+end
+
 
 # helpers do
 #   def some_helper
