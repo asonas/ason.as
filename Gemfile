@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+gem 'aws-sdk-cloudfront'
+gem 'aws-sdk-s3'
 gem 'html-pipeline'
 gem 'middleman', '~> 4.2'
 gem 'middleman-autoprefixer', '~> 2.7'

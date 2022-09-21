@@ -40,7 +40,7 @@ helpers do
   end
 end
 
-page "/articles", layout: "layout"
+page "/articles", layout: "layout", directory_index: false
 page "/articles/*", layout: "layout"
 
 proxy("/articles", "articles/index.html", locals: { articles: Article.all })
