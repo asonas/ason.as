@@ -44,6 +44,14 @@ Article.all.each do |article|
   proxy(article.path, "articles/show.html", locals: { article: article })
 end
 
+activate :external_pipeline, {
+  name: :webpack,
+  command: build? ?
+    "NODE_ENV=production npm run build" :
+    "NODE_ENV=develop npm run develop",
+  source: "./build",
+  latency: 1
+}
 
 # helpers do
 #   def some_helper
