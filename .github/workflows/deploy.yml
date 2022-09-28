@@ -1,0 +1,24 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    name: deploy
+    timeout-minutes: 10
+    runs-on: [ubuntu-latest]
+
+  steps:
+    - uses: actions/checkout
+
+    - name: bundle install
+      run: bundle install
+
+    - name: build
+      run: bundle ex middleman build
+
+    - name: deploy
+      run: ruby deploy.rb
