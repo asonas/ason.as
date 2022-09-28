@@ -4,3 +4,4 @@
 .sass-cache
 build/
 node_modules/
+.rubocop-https---raw-githubusercontent-com-cookpad-styleguide-master--rubocop-yml

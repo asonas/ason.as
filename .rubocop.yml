@@ -1,0 +1,26 @@
+inherit_from: "https://raw.githubusercontent.com/cookpad/styleguide/master/.rubocop.yml"
+
+Bundler/OrderedGems:
+  Enabled: true
+
+########################
+# cookpad/styleguide overrides
+########################
+
+#Allow `ary.each {|foo|` .
+# (This style is allowed in the original style guide; see https://github.com/cookpad/styleguide/issues/66)
+Layout/SpaceInsideBlockBraces:
+  Enabled: false
+
+# The following are not allowed in the original style guide,
+# but ad4 mantainers have agreed that `if !cond` shall be preferred than `unless cond`.
+Style/NegatedIf:
+  Enabled: false
+Style/NegatedWhile:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Layout/EmptyLines:
+  Enabled: true
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either
