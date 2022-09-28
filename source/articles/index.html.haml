@@ -1,5 +1,5 @@
 %article.articles
-  - articles.each do |article|
+  - articles_from_config.each do |article|
     %a.article.text-decoration-none{ href: article.path }
       %strong.text-decoration-underline= article.title
       %p

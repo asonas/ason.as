@@ -1,10 +1,6 @@
 # Activate and configure extensions
 # https://middlemanapp.com/advanced/configuration/#configuring-extensions
 
-activate :autoprefixer do |prefix|
-  prefix.browsers = "last 2 versions"
-end
-
 set :haml, format: :html5
 
 # Layouts
@@ -43,18 +39,18 @@ end
 page "/articles", layout: "layout", directory_index: false
 page "/articles/*", layout: "layout"
 
-proxy("/articles", "articles/index.html", locals: { articles: Article.all })
+proxy("/articles", "articles/index.html", locals: { articles_from_config: Article.all }, ignore: true)
 Article.all.each do |article|
-  proxy(article.path, "articles/show.html", locals: { article: article })
+  proxy(article.path, "articles/show.html", locals: { article: article }, ignore: true)
 end
-proxy("/feed", "feed.xml", locals: { articles: Article.all })
+proxy("/feed", "feed.xml", locals: { articles_from_config: Article.all }, ignore: true)
 
 activate :external_pipeline, {
   name: :webpack,
   command: build? ?
     "NODE_ENV=production npm run build" :
     "NODE_ENV=develop npm run develop",
-  source: "./build",
+  source: ".tmp/build",
   latency: 1
 }
 
