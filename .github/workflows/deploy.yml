@@ -64,4 +64,4 @@ jobs:
         run: bundle exec middleman build
 
       - name: deploy
-        run: bundle ex ruby deploy.rb
+        run: AWS_DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }} bundle ex ruby deploy.rb
