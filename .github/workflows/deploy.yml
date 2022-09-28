@@ -6,10 +6,10 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,6 +17,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          aws-region: ap-northeast-1
+          role-to-assume: arn:aws:iam::282782318939:role/ActionsAsonasPortfolio
+          role-session-name: GitHubActions-${{ github.run_id }}
+      - name: test
+        run: aws sts get-caller-identity
 
       - name: Detect package manager
         id: detect-package-manager
