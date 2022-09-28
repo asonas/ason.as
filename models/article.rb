@@ -95,7 +95,7 @@ class Article
     array = @raw_content.split("---\n", 3)
     {
       body: array[2],
-      meta: YAML.load(array[1])
+      meta: YAML.safe_load(array[1], permitted_classes: [Time]),
     }
   end
 
