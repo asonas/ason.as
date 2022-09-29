@@ -36,7 +36,7 @@ default_invalidation_items = %w[
 ]
 invalidation_items = default_invalidation_items
 
-prev_revision = Net::HTTP.get(URI.oparse("https://ason.as/revision")).chomp
+prev_revision = Net::HTTP.get(URI.parse("https://ason.as/revision")).chomp
 `git diff HEAD..#{prev_revision} --name-only`.split("\n").select { |f| f.include?("article") }.each do |file|
   if file.start_with? "source"
     invalidation_items.push file.gsub("source/", "")
