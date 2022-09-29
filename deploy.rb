@@ -41,8 +41,8 @@ puts prev_revision
   puts file
   if file.start_with? "source"
     invalidation_items.push file.gsub("source/", "")
-  else
-    invalidation_items.push file
+  elsif file.end_with? ".md"
+    invalidation_items.push file.gsub(/.md$/, "")
   end
 end
 
