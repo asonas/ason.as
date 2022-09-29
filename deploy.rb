@@ -27,13 +27,20 @@ end
 client.put_object(bucket: bucket, key: "revision", body: File.read("revision"), content_type: "text/plain", acl: acl)
 client.put_object(bucket: bucket, key: "feed", body: File.read("feed"), content_type: "application/rss+xml", acl: acl)
 
+default_invalidation_items = %w[
+  /index.html
+  /feed
+  /revision
+]
+invalidation_items = default_invalidation_items
+
 cloud_front_client = Aws::CloudFront::Client.new(region: region)
 cloud_front_client.create_invalidation(
   distribution_id: ENV["AWS_DISTRIBUTION_ID"],
   invalidation_batch: {
     paths: {
-      quantity: 1,
-      items: ["/index.html"],
+      quantity: invalidation_items.size,
+      items: invalidation_items,
     },
     caller_reference: Time.now.to_s,
   },
