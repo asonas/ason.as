@@ -29,6 +29,7 @@ end
 client.put_object(bucket: bucket, key: "feed", body: File.read("feed"), content_type: "application/rss+xml", acl: acl)
 
 default_invalidation_items = %w[
+  /
   /index.html
   /feed
   /revision
