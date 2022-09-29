@@ -45,25 +45,15 @@ Article.all.each do |article|
 end
 proxy("/feed", "feed.xml", locals: { articles_from_config: Article.all }, ignore: true)
 
+cmd =
+  if build?
+    "NODE_ENV=production npm run build"
+  else
+    "NODE_ENV=develop npm run develop"
+  end
 activate :external_pipeline, {
   name: :webpack,
-  command: build? ?
-    "NODE_ENV=production npm run build" :
-    "NODE_ENV=develop npm run develop",
-  source: ".tmp/build",
-  latency: 1
+  command: cmd,
+  source: "build",
+  latency: 1,
 }
-
-# helpers do
-#   def some_helper
-#     'Helping'
-#   end
-# end
-
-# Build-specific configuration
-# https://middlemanapp.com/advanced/configuration/#environment-specific-settings
-
-# configure :build do
-#   activate :minify_css
-#   activate :minify_javascript
-# end

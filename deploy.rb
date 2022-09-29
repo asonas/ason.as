@@ -32,8 +32,8 @@ cloud_front_client.create_invalidation(
   invalidation_batch: {
     paths: {
       quantity: 1,
-      items: ["/index.html"]
+      items: ["/index.html", "/feed"],
     },
-    caller_reference: Time.now.to_s
+    caller_reference: Time.now.to_s,
   },
 )
