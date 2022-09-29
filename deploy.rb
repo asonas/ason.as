@@ -2,6 +2,8 @@ require 'aws-sdk-cloudfront'
 require 'aws-sdk-s3'
 require 'fileutils'
 require 'mime/types'
+require 'net/http'
+require 'uri'
 
 base_dir = "./build/"
 Dir.chdir(base_dir)
@@ -33,6 +35,17 @@ default_invalidation_items = %w[
   /revision
 ]
 invalidation_items = default_invalidation_items
+
+prev_revision = Net::HTTP.get(URI.oparse("https://ason.as/revision")).chomp
+`git diff HEAD..#{prev_revision} --name-only`.split("\n").select { |f| f.include?("article") }.each do |file|
+  if file.start_with? "source"
+    invalidation_items.push file.gsub("source/", "")
+  else
+    invalidation_items.push file
+  end
+end
+
+puts invalidation_items
 
 cloud_front_client = Aws::CloudFront::Client.new(region: region)
 cloud_front_client.create_invalidation(
