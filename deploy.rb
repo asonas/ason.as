@@ -24,6 +24,7 @@ Dir.glob(["**/*.css", "images/**/*", "javascripts/*"]).each do |file|
   client.put_object(bucket: bucket, key: file, body: File.read(file), content_type: type, acl: acl)
 end
 
+client.put_object(bucket: bucket, key: "revision", body: File.read("revision"), content_type: "text/plain", acl: acl)
 client.put_object(bucket: bucket, key: "feed", body: File.read("feed"), content_type: "application/rss+xml", acl: acl)
 
 cloud_front_client = Aws::CloudFront::Client.new(region: region)
