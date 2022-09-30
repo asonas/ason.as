@@ -37,9 +37,17 @@ invalidation_items = default_invalidation_items
 
 prev_revision = Net::HTTP.get(URI.parse("https://ason.as/revision")).chomp
 puts prev_revision
+
+templates = %w[
+  source/articles/index.html.haml
+  source/articles/show.html.haml
+]
 `git diff #{prev_revision}..master --name-only`.split("\n").each do |file|
   puts file
-  if file.start_with? "source"
+  if templates.include? file
+    invalidation_items.push "/articles"
+    invalidation_items.push "/articles/*"
+  elsif file.start_with? "source"
     item = "/" + file.gsub("source/", "")
     if item.end_with? ".scss"
       invalidation_items.push "/javascripts/site.js"
