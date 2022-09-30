@@ -41,7 +41,7 @@ puts prev_revision
 `git diff #{prev_revision}..master --name-only`.split("\n").select { |f| f.include?("article") }.each do |file|
   puts file
   if file.start_with? "source"
-    invalidation_items.push file.gsub("source/", "")
+    invalidation_items.push "/" + file.gsub("source/", "")
   elsif file.end_with? ".md"
     # e.g. articles/foo-bar.md -> /articles/foo-bar
     invalidation_items.push "/" + file.gsub(/.md$/, "")
