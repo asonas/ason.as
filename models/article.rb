@@ -106,20 +106,16 @@ class Article
       title: title,
       description: leadline,
       canonical: url,
-      og: {
-        title: title,
-        description: leadline,
-        image: image_url,
-        url: url,
-        type: "website",
-      },
-      twitter: {
-        title: title,
-        description: leadline,
-        site: "asonas",
-        image: image_url,
-        card: "summary_large_image",
-      }
+      og_title: title,
+      og_description: leadline,
+      og_image: image_url,
+      og_url: url,
+      og_type: "website",
+      twitter_title: title,
+      twitter_description: leadline,
+      twitter_site: "asonas",
+      twitter_image: image_url,
+      twitter_card: "summary_large_image",
     }
   end
 
