@@ -67,3 +67,6 @@ jobs:
 
       - name: deploy
         run: AWS_DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }} bundle ex ruby deploy.rb
+
+      - name: update revision
+        run: AWS_DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }} bundle ex ruby update_revision.rb

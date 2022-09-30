@@ -32,7 +32,6 @@ default_invalidation_items = %w[
   /
   /index.html
   /feed
-  /revision
 ]
 invalidation_items = default_invalidation_items
 
@@ -55,7 +54,6 @@ end
 
 puts invalidation_items
 
-client.put_object(bucket: bucket, key: "revision", body: File.read("revision"), content_type: "text/plain", acl: acl)
 cloud_front_client = Aws::CloudFront::Client.new(region: region)
 cloud_front_client.create_invalidation(
   distribution_id: ENV["AWS_DISTRIBUTION_ID"],
