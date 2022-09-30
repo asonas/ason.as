@@ -38,13 +38,18 @@ invalidation_items = default_invalidation_items
 
 prev_revision = Net::HTTP.get(URI.parse("https://ason.as/revision")).chomp
 puts prev_revision
-`git diff #{prev_revision}..master --name-only`.split("\n").select { |f| f.include?("article") }.each do |file|
+`git diff #{prev_revision}..master --name-only`.split("\n").each do |file|
   puts file
   if file.start_with? "source"
-    invalidation_items.push "/" + file.gsub("source/", "")
+    item = "/" + file.gsub("source/", "")
+    if item.end_with? ".scss"
+      invalidation_items.push item.gsub(/\.scss$/, "")
+    else
+      invalidation_items.push item
+    end
   elsif file.end_with? ".md"
     # e.g. articles/foo-bar.md -> /articles/foo-bar
-    invalidation_items.push "/" + file.gsub(/.md$/, "")
+    invalidation_items.push "/" + file.gsub(/\.md$/, "")
   end
 end
 
