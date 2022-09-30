@@ -42,7 +42,7 @@ puts prev_revision
   if file.start_with? "source"
     item = "/" + file.gsub("source/", "")
     if item.end_with? ".scss"
-      invalidation_items.push item.gsub(/\.scss$/, "")
+      invalidation_items.push "/javascripts/site.js"
     else
       invalidation_items.push item
     end

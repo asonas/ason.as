@@ -49,6 +49,21 @@ class Article
     contents[:body]
   end
 
+  def image_url
+    doc = Nokogiri::HTML self.rendered_body
+    img = doc.css("img").first
+
+    if img
+      "https://ason.as" + img.attributes["src"].value
+    else
+      "https://ason.as/images/ogimage.png"
+    end
+  end
+
+  def leadline
+    body.split("\n").compact.reject(&:empty?).first
+  end
+
   def body_only_text
     doc = Nokogiri::HTML.parse(self.rendered_body)
     doc.text
@@ -59,7 +74,7 @@ class Article
   end
 
   def url
-    "https://www.ason.as#{path}"
+    "https://ason.as#{path}"
   end
 
   def published_at
@@ -77,7 +92,6 @@ class Article
   def rendered_body
     pipeline = HTML::Pipeline.new(
       [
-
         MarkdownFilter,
         BlockquotesFilter,
         ImageTagFilter,
@@ -85,6 +99,28 @@ class Article
     )
     result = pipeline.call(body)
     result[:output].to_s
+  end
+
+  def to_meta_tags
+    {
+      title: title,
+      description: leadline,
+      canonical: url,
+      og: {
+        title: title,
+        description: leadline,
+        image: image_url,
+        url: url,
+        type: "website",
+      },
+      twitter: {
+        title: title,
+        description: leadline,
+        site: "asonas",
+        image: image_url,
+        card: "summary_large_image",
+      }
+    }
   end
 
   def meta

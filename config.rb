@@ -3,6 +3,8 @@
 
 set :haml, format: :html5
 
+activate :meta_tags
+
 # Layouts
 # https://middlemanapp.com/basics/layouts/
 
@@ -34,12 +36,41 @@ helpers do
   def articles
     Article.all
   end
+
+  def default_meta_tags
+    {
+      title: "ason.as",
+      description: "I am asonas.",
+      canonical: "https://ason.as/",
+      og: {
+        title: "ason.as",
+        description: "I am asonas.",
+        image: "https://ason.as/images/ogimage.png",
+        url: :canonical,
+        type: "website",
+      },
+      twitter: {
+        title: "ason.as",
+        description: "I am asonas.",
+        site: "asonas",
+        image: "https://ason.as/images/ogimage.png",
+        card: "summary_large_image",
+      }
+    }
+  end
 end
 
 page "/articles", layout: "layout", directory_index: false
 page "/articles/*", layout: "layout"
 
-proxy("/articles", "articles/index.html", locals: { articles_from_config: Article.all }, ignore: true)
+proxy(
+  "/articles",
+  "articles/index.html",
+  locals: {
+    articles_from_config: Article.all,
+  },
+  ignore: true
+)
 Article.all.each do |article|
   proxy(article.path, "articles/show.html", locals: { article: article }, ignore: true)
 end
