@@ -41,6 +41,7 @@ puts prev_revision
 templates = %w[
   source/articles/index.html.haml
   source/articles/show.html.haml
+  source/layouts/layout.haml
 ]
 `git diff #{prev_revision}..master --name-only`.split("\n").each do |file|
   puts file
@@ -60,15 +61,15 @@ templates = %w[
   end
 end
 
-puts invalidation_items
+puts invalidation_items.uniq
 
 cloud_front_client = Aws::CloudFront::Client.new(region: region)
 cloud_front_client.create_invalidation(
   distribution_id: ENV["AWS_DISTRIBUTION_ID"],
   invalidation_batch: {
     paths: {
-      quantity: invalidation_items.size,
-      items: invalidation_items,
+      quantity: invalidation_items.uniq.size,
+      items: invalidation_items.uniq,
     },
     caller_reference: Time.now.to_s,
   },
