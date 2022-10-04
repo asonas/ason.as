@@ -63,7 +63,7 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - name: build
-        run: bundle exec middleman build
+        run: bundle exec middleman build --verbose
 
       - name: deploy
         run: AWS_DISTRIBUTION_ID=${{ secrets.AWS_DISTRIBUTION_ID }} bundle ex ruby deploy.rb
