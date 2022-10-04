@@ -2,6 +2,7 @@
 .cache
 .DS_Store
 .sass-cache
+articles/.obsidian/
 build/
 node_modules/
 .rubocop-https---raw-githubusercontent-com-cookpad-styleguide-master--rubocop-yml
