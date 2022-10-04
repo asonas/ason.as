@@ -1,7 +1,9 @@
+require 'aws-sdk-s3'
 require 'redcarpet'
 require 'html/pipeline'
 require 'yaml'
 require 'pry'
+
 class Article
   def self.all
     r = []
@@ -92,6 +94,7 @@ class Article
   def rendered_body
     pipeline = HTML::Pipeline.new(
       [
+        EmbedTagFilter,
         MarkdownFilter,
         BlockquotesFilter,
         ImageTagFilter,
@@ -145,6 +148,68 @@ class Article
       )
       res = markdown.render(@text)
       Nokogiri::HTML.fragment(res)
+    end
+  end
+
+  # markdown => html
+  # syntax e.g. `[embed:https://example.com/foo-bar]`
+  class EmbedTagFilter < HTML::Pipeline::TextFilter
+    REGEX = %r!\[embed:(https?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)\]!
+    BUCKET_NAME = ENV["BUCKET_NAME"]
+    attr_accessor :url, :response, :client
+
+    def call
+      @client = Aws::S3::Client.new(region: "ap-northeast-1")
+      @text.match REGEX
+      @url = $1
+      if @url
+        fetch_meta_from_cache
+        render
+      end
+
+      @text
+    end
+
+    def render
+      b = binding
+      erb = ERB.new <<~EOF
+      <div class="embed">
+        <a href="<%= response["url"] %>">
+          <img src="<%= response["images"].first %>">
+          <div class="body">
+            <header><%= response["title"] %></header>
+            <div>
+              <p><%= response["description"] %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+      EOF
+      @text.gsub!(REGEX, erb.result(b))
+    end
+
+    def fetch_meta_from_cache
+      object = client.get_object(bucket: BUCKET_NAME, key: "jsonlink-io/#{cache_filename}")
+      @response = JSON.parse(object.body.read)
+    rescue Aws::S3::Errors::NoSuchKey => e
+      fetch_meta
+      save_cache
+    end
+
+    def fetch_meta
+      @response = JSON.parse(
+        Net::HTTP.get(
+          URI.parse("https://jsonlink.io/api/extract?url=#{@url}")
+        )
+      )
+    end
+
+    def save_cache
+      client.put_object(bucket: BUCKET_NAME, key: "jsonlink-io/#{cache_filename}", body: response.to_json)
+    end
+
+    def cache_filename
+      Digest::SHA256.hexdigest @url
     end
   end
 

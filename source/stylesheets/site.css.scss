@@ -21,6 +21,33 @@ body {
     margin-bottom: 10px;
   }
 
+  .embed {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background-color: rgb(255, 255, 255);
+    border-radius: 6px;
+
+    a {
+      text-decoration: none;
+    }
+
+    img {
+      margin: 0;
+    }
+
+    header {
+      font-weight: bold;
+    }
+
+    .body {
+      padding: 10px 15px;
+
+      p {
+        font-size: 14px;
+        margin: 0;
+      }
+    }
+  }
+
   p {
     word-wrap: break-word;
   }
