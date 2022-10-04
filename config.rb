@@ -97,17 +97,9 @@ helpers do
   end
 end
 
-page "/articles", layout: "layout", directory_index: false
+page "/articles", layout: "layout"
 page "/articles/*", layout: "layout"
 
-proxy(
-  "/articles",
-  "articles/index.html",
-  locals: {
-    articles_from_config: Article.all,
-  },
-  ignore: true
-)
 Article.all.each do |article|
   proxy(article.path, "articles/show.html", locals: { article: article }, ignore: true)
 end

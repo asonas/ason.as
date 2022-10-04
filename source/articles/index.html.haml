@@ -1,7 +1,7 @@
 - set_meta_tags default_meta_tags
 
 %article.articles
-  - articles_from_config.each do |article|
+  - Article.all.each do |article|
     %a.article.text-decoration-none{ href: article.path }
       %strong.text-decoration-underline= article.title
       %p
