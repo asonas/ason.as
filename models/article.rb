@@ -55,11 +55,17 @@ class Article
     doc = Nokogiri::HTML self.rendered_body
     img = doc.css("img").first
 
-    if img
+    if ogp_image
+      "https://ason.as" + ogp_image
+    elsif img
       "https://ason.as" + img.attributes["src"].value
     else
       "https://ason.as/images/ogimage.png"
     end
+  end
+
+  def ogp_image
+    meta['ogp_image']
   end
 
   def leadline
