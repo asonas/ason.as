@@ -56,7 +56,7 @@ class Article
     img = doc.css("img").first
 
     if ogp_image
-      "https://ason.as" + ogp_image
+      "https://ason.as/" + ogp_image
     elsif img
       "https://ason.as" + img.attributes["src"].value
     else
