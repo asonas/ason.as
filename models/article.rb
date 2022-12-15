@@ -197,7 +197,7 @@ class Article
     def fetch_meta_from_cache
       object = client.get_object(bucket: BUCKET_NAME, key: "jsonlink-io/#{cache_filename}")
       @response = JSON.parse(object.body.read)
-    rescue Aws::S3::Errors::NoSuchKey => e
+    rescue Aws::S3::Errors::NoSuchKey, Aws::S3::Errors::AccessDenied => e
       fetch_meta
       save_cache
     end
