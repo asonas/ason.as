@@ -104,6 +104,7 @@ Article.all.each do |article|
   proxy(article.path, "articles/show.html", locals: { article: article }, ignore: true)
 end
 proxy("/feed", "feed.xml", locals: { articles_from_config: Article.all }, ignore: true)
+proxy("/.well-known/nostr.json", "nostr.json")
 
 cmd =
   if build?
