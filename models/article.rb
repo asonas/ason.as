@@ -27,7 +27,7 @@ class Article
 
   def self.find_by(id)
     path = "articles/#{id}.md"
-    if File.exists? path
+    if File.exist? path
       new(id, File.read(path), File.mtime(path))
     end
   end
@@ -69,7 +69,7 @@ class Article
   end
 
   def leadline
-    body.split("\n").compact.reject(&:empty?).first
+    body_only_text.split("\n").compact.reject(&:empty?).join(" ")[0...60] + "..."
   end
 
   def body_only_text
