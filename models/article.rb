@@ -236,7 +236,7 @@ class Article
   class ImageTagFilter < HTML::Pipeline::Filter
     def call
       doc.search('img').each do |img|
-        img[:src] = img[:src].gsub(/^\/static/, "")
+        img[:src] = img[:src].gsub(/^..\/source/, "")
         img[:class] = "img-fluid"
       end
 
