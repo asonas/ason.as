@@ -31,5 +31,5 @@
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.1"
   },
-  "packageManager": "yarn@3.2.3"
+  "packageManager": "pnpm"
 }
