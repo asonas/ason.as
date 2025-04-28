@@ -9,6 +9,5 @@ node_modules/
 !.yarn/releases/*
 .rubocop-https---raw-githubusercontent-com-cookpad-styleguide-master--rubocop-yml
 .obsidian
-# pnpm
-pnpm-lock.yaml
+pnpm
 .pnpm-store/
