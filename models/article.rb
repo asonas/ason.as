@@ -3,6 +3,7 @@ require 'redcarpet'
 require 'html/pipeline'
 require 'yaml'
 require 'pry'
+require 'metainspector'
 
 class Article
   def self.all
@@ -162,27 +163,75 @@ class Article
   class EmbedTagFilter < HTML::Pipeline::TextFilter
     REGEX = %r!\[embed:(https?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)\]!
     BUCKET_NAME = ENV["BUCKET_NAME"]
-    attr_accessor :url, :response, :client
+    YOUTUBE_REGEX = %r{(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})}
+    attr_accessor :url, :response, :client, :is_youtube, :youtube_id
 
     def call
       @client = Aws::S3::Client.new(region: "ap-northeast-1")
-      @text.match REGEX
-      @url = $1
-      if @url
-        fetch_meta_from_cache
-        render
+
+      new_text = @text.dup
+
+      matches = []
+      @text.scan(REGEX) do |url_match|
+        matches << url_match[0]
       end
 
-      @text
+      matches.each do |url|
+        @url = url
+        @is_youtube = false
+        @youtube_id = nil
+
+        check_if_youtube
+        fetch_meta_from_cache
+
+        pattern = Regexp.new(Regexp.escape("[embed:#{url}]"))
+
+        if @is_youtube
+          new_text.sub!(pattern, render_youtube_content)
+        else
+          new_text.sub!(pattern, render_normal_embed_content)
+        end
+      end
+
+      @text = new_text
     end
 
-    def render
+    def check_if_youtube
+      if @url =~ YOUTUBE_REGEX
+        @is_youtube = true
+        @youtube_id = $1
+      else
+        @is_youtube = false
+      end
+    end
+
+    def render_youtube
+      @text.gsub!(REGEX, render_youtube_content)
+    end
+
+    def render_youtube_content
+      <<~HTML
+      <div class="embed-responsive embed-responsive-16by9 mb-4 w-100">
+        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/#{@youtube_id}"
+         frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      HTML
+    end
+
+    def render_normal_embed
+      @text.gsub!(REGEX, render_normal_embed_content)
+    end
+
+    def render_normal_embed_content
       b = binding
+      has_image = response["images"] && !response["images"].empty?
       erb = ERB.new <<~EOF
-      <div class="embed">
-        <a href="<%= response["url"] %>">
-          <img src="<%= response["images"].first %>">
-          <div class="body">
+      <div class="embed w-100">
+        <a href="<%= response["url"] %>" class="d-block w-100">
+          <% if has_image %>
+          <img src="<%= response["images"].first %>" class="w-100">
+          <% end %>
+          <div class="body w-100">
             <header><%= response["title"] %></header>
             <div>
               <p><%= response["description"] %></p>
@@ -191,11 +240,13 @@ class Article
         </a>
       </div>
       EOF
-      @text.gsub!(REGEX, erb.result(b))
+      erb.result(b)
     end
 
     def fetch_meta_from_cache
-      object = client.get_object(bucket: BUCKET_NAME, key: "jsonlink-io/#{cache_filename}")
+      return if @is_youtube
+
+      object = client.get_object(bucket: BUCKET_NAME, key: "metainspector/#{cache_filename}")
       @response = JSON.parse(object.body.read)
     rescue Aws::S3::Errors::NoSuchKey, Aws::S3::Errors::AccessDenied => e
       fetch_meta
@@ -203,15 +254,30 @@ class Article
     end
 
     def fetch_meta
-      @response = JSON.parse(
-        Net::HTTP.get(
-          URI.parse("https://jsonlink.io/api/extract?url=#{@url}")
-        )
-      )
+      return if @is_youtube
+
+      begin
+        page = MetaInspector.new(@url)
+        @response = {
+          "url" => @url,
+          "title" => page.title || @url,
+          "description" => page.description || "説明がありません",
+          "images" => page.images.best ? [page.images.best] : []
+        }
+      rescue => e
+        @response = {
+          "url" => @url,
+          "title" => @url,
+          "description" => "URLコンテンツの読み込みに失敗しました",
+          "images" => []
+        }
+      end
     end
 
     def save_cache
-      client.put_object(bucket: BUCKET_NAME, key: "jsonlink-io/#{cache_filename}", body: response.to_json)
+      return if @is_youtube
+
+      client.put_object(bucket: BUCKET_NAME, key: "metainspector/#{cache_filename}", body: response.to_json)
     end
 
     def cache_filename
