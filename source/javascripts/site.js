@@ -1,3 +1,1 @@
-import "../stylesheets/site.css.scss";
-import "@popperjs/core";
-import "bootstrap";
+import "../stylesheets/tailwind.css";

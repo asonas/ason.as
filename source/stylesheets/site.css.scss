@@ -1,4 +1,7 @@
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@use "sass:color";
+@use "sass:math";
+
+@use "../../node_modules/bootstrap/scss/bootstrap" as bootstrap;
 
 body {
   background-color: #fafafa;

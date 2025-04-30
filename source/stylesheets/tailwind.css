@@ -1,0 +1,142 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 独自のカスタムスタイル */
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-800 text-sm;
+  }
+
+  h1 {
+    @apply text-4xl md:text-6xl font-semibold mb-6;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl font-semibold mt-8 mb-4;
+  }
+
+  p {
+    @apply mb-4;
+  }
+
+  a {
+    @apply text-gray-800 no-underline;
+  }
+
+  a:visited {
+    @apply text-gray-800;
+  }
+
+  img {
+    @apply my-4 max-w-full;
+  }
+
+  blockquote {
+    @apply pl-4 border-l-4 border-gray-300 italic my-4 text-gray-700;
+  }
+
+  hr {
+    @apply my-2;
+  }
+
+  hr.dotted {
+    @apply border-t border-dotted border-gray-200 my-4;
+  }
+
+  footer {
+    @apply py-10;
+  }
+
+  iframe {
+    @apply max-w-full;
+  }
+}
+
+@layer components {
+  /* ナビゲーションバー */
+  .navbar {
+    @apply flex items-center justify-between py-4;
+  }
+
+  .navbar-brand {
+    @apply text-3xl font-normal;
+  }
+
+  .navbar-nav {
+    @apply flex space-x-4 ml-auto;
+  }
+
+  .nav-item {
+    @apply list-none;
+  }
+
+  .nav-link {
+    @apply text-gray-800 hover:text-gray-600;
+  }
+
+  /* コンテナ */
+  .container {
+    @apply px-4 mx-auto w-full max-w-6xl;
+  }
+
+  /* 記事 */
+  article {
+    @apply w-full md:w-[70%] mx-auto text-base leading-7;
+  }
+
+  /* 埋め込みコンテンツ */
+  .embed {
+    @apply mb-4 border border-gray-200 rounded-lg overflow-hidden bg-white w-full;
+  }
+
+  .embed a {
+    @apply block no-underline w-full;
+  }
+
+  .embed img {
+    @apply m-0 rounded-t-lg w-full max-h-[300px] object-cover;
+  }
+
+  .embed header {
+    @apply font-bold mb-1;
+  }
+
+  .embed .body {
+    @apply p-4 w-full;
+  }
+
+  .embed .body p {
+    @apply text-sm m-0;
+  }
+
+  /* レスポンシブ埋め込み */
+  .embed-responsive {
+    @apply relative w-full overflow-hidden mb-4;
+    padding-bottom: 56.25%;
+  }
+
+  .embed-responsive-item {
+    @apply absolute top-0 left-0 w-full h-full border-0;
+  }
+
+  /* YouTube埋め込み */
+  iframe[src*="youtube.com"],
+  iframe[src*="youtu.be"] {
+    @apply w-full aspect-video mb-4;
+    min-height: 315px;
+  }
+
+  /* ソーシャルリンク */
+  .social-links {
+    @apply flex flex-wrap justify-center gap-4 my-8;
+  }
+
+  .social-link {
+    @apply block text-center p-2;
+  }
+
+  .social-link img {
+    @apply w-16 h-16 mx-auto my-0;
+  }
+}

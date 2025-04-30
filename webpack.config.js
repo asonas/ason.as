@@ -7,7 +7,8 @@ const isProd = NODE_ENV === "production";
 module.exports = {
   mode: isProd ? "production" : "development",
   entry: [
-    './source/javascripts/site.js'
+    './source/javascripts/site.js',
+    './source/stylesheets/tailwind.css'
   ],
   output: {
     filename: 'site.js',
@@ -24,20 +25,20 @@ module.exports = {
             options: {
               url: true,
               sourceMap: !isProd,
-              importLoaders: 2
+              importLoaders: 1
             }
           },
-          {
-            loader: "sass-loader",
-            options: {
-              sourceMap: !isProd
-            }
-          }
+          "postcss-loader"
         ]
       },
       {
         test: /\.(gif|png|jpg|eot|wof|woff|woff2|ttf|svg)$/,
-        loader: "url-loader"
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 8 * 1024
+          }
+        }
       }
     ]
   },

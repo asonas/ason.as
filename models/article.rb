@@ -211,7 +211,7 @@ class Article
 
     def render_youtube_content
       <<~HTML
-      <div class="embed-responsive embed-responsive-16by9 mb-4 w-100">
+      <div class="embed-responsive">
         <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/#{@youtube_id}"
          frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div>
@@ -226,12 +226,12 @@ class Article
       b = binding
       has_image = response["images"] && !response["images"].empty?
       erb = ERB.new <<~EOF
-      <div class="embed w-100">
-        <a href="<%= response["url"] %>" class="d-block w-100">
+      <div class="embed">
+        <a href="<%= response["url"] %>">
           <% if has_image %>
-          <img src="<%= response["images"].first %>" class="w-100">
+          <img src="<%= response["images"].first %>">
           <% end %>
-          <div class="body w-100">
+          <div class="body">
             <header><%= response["title"] %></header>
             <div>
               <p><%= response["description"] %></p>
@@ -303,7 +303,7 @@ class Article
     def call
       doc.search('img').each do |img|
         img[:src] = img[:src].gsub(/^..\/source/, "")
-        img[:class] = "img-fluid"
+        img[:class] = "max-w-full"
       end
 
       doc
