@@ -85,6 +85,10 @@
     @apply w-full md:w-[70%] mx-auto text-base leading-7;
   }
 
+  article a {
+    @apply underline;
+  }
+
   /* 埋め込みコンテンツ */
   .embed {
     @apply mb-4 border border-gray-200 rounded-lg overflow-hidden bg-white w-full;
