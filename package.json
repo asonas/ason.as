@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/asonas/ason.as#readme",
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.4.27",
     "css-loader": "^6.11.0",
-    "postcss": "^8.5.3",
-    "postcss-loader": "^8.1.1",
+    "postcss": "^8.5.8",
+    "postcss-loader": "^8.2.1",
     "style-loader": "^3.3.4",
     "tailwindcss": "3.4.3",
-    "webpack": "^5.99.7",
+    "webpack": "^5.105.4",
     "webpack-cli": "^6.0.1"
   },
   "packageManager": "pnpm"
