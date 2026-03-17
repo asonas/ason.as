@@ -100,9 +100,9 @@ class Article
 
   def rendered_body
     pipeline = HTMLPipeline.new(
-      text_filters: [EmbedTagFilter],
+      text_filters: [EmbedTagFilter.new],
       convert_filter: MarkdownFilter.new,
-      node_filters: [BlockquotesFilter, ImageTagFilter],
+      node_filters: [BlockquotesFilter.new, ImageTagFilter.new],
     )
     result = pipeline.call(body)
     result[:output]
@@ -143,7 +143,7 @@ class Article
   end
 
   class MarkdownFilter < HTMLPipeline::ConvertFilter
-    def call(text)
+    def call(text, context: {})
       markdown = Redcarpet::Markdown.new(
         Redcarpet::Render::HTML,
         autolink: true,
@@ -162,17 +162,17 @@ class Article
     YOUTUBE_REGEX = %r{(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})}
     attr_accessor :url, :response, :client, :is_youtube, :youtube_id
 
-    def call
+    def call(text, context: {}, result: {})
       @client = begin
         Aws::S3::Client.new(region: "ap-northeast-1")
       rescue Aws::Sigv4::Errors::MissingCredentialsError
         nil
       end
 
-      new_text = @text.dup
+      new_text = text.dup
 
       matches = []
-      @text.scan(REGEX) do |url_match|
+      text.scan(REGEX) do |url_match|
         matches << url_match[0]
       end
 
@@ -193,7 +193,7 @@ class Article
         end
       end
 
-      @text = new_text
+      new_text
     end
 
     def check_if_youtube
