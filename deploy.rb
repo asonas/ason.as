@@ -50,7 +50,7 @@ templates = %w[
     invalidation_items.push "/articles/*"
   elsif file.start_with? "source"
     item = "/" + file.gsub("source/", "")
-    if item.end_with? ".scss"
+    if item.end_with?(".scss") || item.end_with?(".css")
       invalidation_items.push "/javascripts/site.js"
     else
       invalidation_items.push item
