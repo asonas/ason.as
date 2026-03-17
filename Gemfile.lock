@@ -81,8 +81,9 @@ GEM
     fast_blank (1.0.1)
     fastimage (2.4.1)
     ffi (1.17.3)
-    haml (5.2.2)
-      temple (>= 0.8.0)
+    haml (6.4.0)
+      temple (>= 0.8.2)
+      thor
       tilt
     hamster (3.0.0)
       concurrent-ruby (~> 1.0)
@@ -264,7 +265,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk-cloudfront
   aws-sdk-s3
-  haml (~> 5.0)
+  haml (~> 6.0)
   html-pipeline
   metainspector
   middleman (~> 4.2)

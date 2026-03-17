@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'aws-sdk-cloudfront'
 gem 'aws-sdk-s3'
-gem 'haml', '~> 5.0'
+gem 'haml', '~> 6.0'
 gem 'html-pipeline'
 gem 'metainspector'
 gem 'middleman', '~> 4.2'
