@@ -7,7 +7,7 @@ build/
 node_modules/
 .yarn/
 !.yarn/releases/*
-.rubocop-https---raw-githubusercontent-com-cookpad-styleguide-master--rubocop-yml
+.rubocop-https---raw-githubusercontent-com-cookpad-styleguide-master*
 .obsidian
 pnpm
 .pnpm-store/
