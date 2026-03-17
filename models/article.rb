@@ -1,6 +1,6 @@
 require 'aws-sdk-s3'
 require 'redcarpet'
-require 'html/pipeline'
+require 'html_pipeline'
 require 'yaml'
 require 'pry'
 require 'metainspector'
@@ -99,16 +99,13 @@ class Article
   end
 
   def rendered_body
-    pipeline = HTML::Pipeline.new(
-      [
-        EmbedTagFilter,
-        MarkdownFilter,
-        BlockquotesFilter,
-        ImageTagFilter,
-      ]
+    pipeline = HTMLPipeline.new(
+      text_filters: [EmbedTagFilter],
+      convert_filter: MarkdownFilter.new,
+      node_filters: [BlockquotesFilter, ImageTagFilter],
     )
     result = pipeline.call(body)
-    result[:output].to_s
+    result[:output]
   end
 
   def to_meta_tags
@@ -145,22 +142,21 @@ class Article
     }
   end
 
-  class MarkdownFilter < HTML::Pipeline::TextFilter
-    def call
+  class MarkdownFilter < HTMLPipeline::ConvertFilter
+    def call(text)
       markdown = Redcarpet::Markdown.new(
         Redcarpet::Render::HTML,
         autolink: true,
         fenced_code_blocks: true,
         no_intra_emphasis: true
       )
-      res = markdown.render(@text)
-      Nokogiri::HTML.fragment(res)
+      markdown.render(text)
     end
   end
 
   # markdown => html
   # syntax e.g. `[embed:https://example.com/foo-bar]`
-  class EmbedTagFilter < HTML::Pipeline::TextFilter
+  class EmbedTagFilter < HTMLPipeline::TextFilter
     REGEX = %r!\[embed:(https?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)\]!
     BUCKET_NAME = ENV["BUCKET_NAME"]
     YOUTUBE_REGEX = %r{(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})}
@@ -295,28 +291,30 @@ class Article
     end
   end
 
-  class BlockquotesFilter < HTML::Pipeline::Filter
-    def call
-      doc.search('blockquote').each do |e|
-        next if e.attributes["class"]&.value == "twitter-tweet"
-        e[:class] = "blockquote"
-        e.children.search('p').each do |d|
-          d[:class] = "mb-0"
-        end
-      end
+  class BlockquotesFilter < HTMLPipeline::NodeFilter
+    SELECTOR = Selma::Selector.new(match_element: "blockquote")
 
-      doc
+    def selector
+      SELECTOR
+    end
+
+    def handle_element(element)
+      return if element["class"] == "twitter-tweet"
+      element["class"] = "blockquote"
     end
   end
 
-  class ImageTagFilter < HTML::Pipeline::Filter
-    def call
-      doc.search('img').each do |img|
-        img[:src] = img[:src].gsub(/^..\/source/, "")
-        img[:class] = "max-w-full"
-      end
+  class ImageTagFilter < HTMLPipeline::NodeFilter
+    SELECTOR = Selma::Selector.new(match_element: "img")
 
-      doc
+    def selector
+      SELECTOR
+    end
+
+    def handle_element(element)
+      src = element["src"]
+      element["src"] = src.gsub(/^..\/source/, "") if src
+      element["class"] = "max-w-full"
     end
   end
 end
