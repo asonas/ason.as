@@ -167,7 +167,11 @@ class Article
     attr_accessor :url, :response, :client, :is_youtube, :youtube_id
 
     def call
-      @client = Aws::S3::Client.new(region: "ap-northeast-1")
+      @client = begin
+        Aws::S3::Client.new(region: "ap-northeast-1")
+      rescue Aws::Sigv4::Errors::MissingCredentialsError
+        nil
+      end
 
       new_text = @text.dup
 
@@ -246,6 +250,11 @@ class Article
     def fetch_meta_from_cache
       return if @is_youtube
 
+      if client.nil?
+        fetch_meta
+        return
+      end
+
       object = client.get_object(bucket: BUCKET_NAME, key: "metainspector/#{cache_filename}")
       @response = JSON.parse(object.body.read)
     rescue Aws::S3::Errors::NoSuchKey, Aws::S3::Errors::AccessDenied => e
@@ -276,6 +285,7 @@ class Article
 
     def save_cache
       return if @is_youtube
+      return if client.nil?
 
       client.put_object(bucket: BUCKET_NAME, key: "metainspector/#{cache_filename}", body: response.to_json)
     end
