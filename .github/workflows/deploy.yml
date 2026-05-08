@@ -11,9 +11,6 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ["3.4"]
 
     steps:
       - uses: actions/checkout@v3
@@ -66,9 +63,8 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler: "2.4.22" # Ruby 3.0と互換性のあるバージョン
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          ruby-version: .ruby-version
+          bundler-cache: true
 
       - name: build
         run: BUCKET_NAME=${{ secrets.BUCKET_NAME }} bundle exec middleman build --verbose
