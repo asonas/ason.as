@@ -102,10 +102,38 @@ end
 page "/articles", layout: "layout"
 page "/articles/*", layout: "layout"
 
-Article.all.each do |article|
-  proxy(article.path, "articles/show.html", locals: { article: article }, ignore: true)
+# 記事Markdownは source/ の外にあるが、開発時はファイル変更を sitemap rebuild に
+# 伝搬させたいので watcher に登録する。auto-discoverされた .md は下の
+# ArticleSitemap extension で除外し、proxy 経由でのみ配信する。
+files.watch :source, path: File.expand_path("articles", __dir__)
+
+# articles/*.md を毎回 sitemap rebuild 時に再スキャンして proxy 化する。
+# これにより記事の追加・削除・本文変更がサーバ再起動なしで反映される。
+class ArticleSitemap < Middleman::Extension
+  def manipulate_resource_list(resources)
+    articles_root = File.expand_path("articles", @app.root)
+    prefix = articles_root + File::SEPARATOR
+
+    filtered = resources.reject do |r|
+      r.source_file && r.source_file.start_with?(prefix)
+    end
+
+    Dir.glob(File.join(articles_root, "*.md")).each do |path|
+      id = File.basename(path, ".md")
+      resource = Middleman::Sitemap::ProxyResource.new(
+        @app.sitemap, "articles/#{id}", "articles/show.html"
+      )
+      resource.add_metadata(locals: { article_id: id }, options: { layout: "layout" })
+      filtered << resource
+    end
+
+    filtered
+  end
 end
-proxy("/feed", "feed.xml", locals: { articles_from_config: Article.all }, ignore: true)
+Middleman::Extensions.register(:article_sitemap, ArticleSitemap)
+activate :article_sitemap
+
+proxy("/feed", "feed.xml", ignore: true)
 
 cmd =
   if build?
