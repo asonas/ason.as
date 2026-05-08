@@ -58,12 +58,17 @@ class Article
     img = doc.css("img").first
 
     if ogp_image
-      "https://ason.as/" + ogp_image
+      absolutize(ogp_image)
     elsif img
-      "https://ason.as" + img.attributes["src"].value
+      absolutize(img.attributes["src"].value)
     else
       "https://ason.as/images/ogimage.png"
     end
+  end
+
+  def absolutize(src)
+    return src if src.start_with?("http://", "https://")
+    "https://ason.as" + (src.start_with?("/") ? src : "/" + src)
   end
 
   def ogp_image
