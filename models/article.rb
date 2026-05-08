@@ -267,14 +267,14 @@ class Article
           "url" => @url,
           "title" => page.title || @url,
           "description" => page.description || "説明がありません",
-          "images" => page.images.best ? [page.images.best] : []
+          "images" => page.images.best ? [page.images.best] : [],
         }
       rescue => e
         @response = {
           "url" => @url,
           "title" => @url,
           "description" => "URLコンテンツの読み込みに失敗しました",
-          "images" => []
+          "images" => [],
         }
       end
     end

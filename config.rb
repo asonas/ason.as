@@ -94,7 +94,7 @@ helpers do
         site: "asonas",
         image: "https://ason.as/images/ogimage.png",
         card: "summary_large_image",
-      }
+      },
     }
   end
 end
