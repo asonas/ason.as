@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import "tailwindcss" source(none);
 
 /* コンテンツソースの指定（.hamlファイルはTailwind 4の自動検出対象外） */
 @source "../../source/**/*.{html,js,haml,erb,rb}";
