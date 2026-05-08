@@ -102,6 +102,10 @@ end
 page "/articles", layout: "layout"
 page "/articles/*", layout: "layout"
 
+# show.html.haml は ArticleSitemap が proxy のテンプレートとして使うだけ。
+# 直接ビルドされると article_id が未定義になるので除外する。
+ignore "articles/show.html"
+
 # 記事Markdownは source/ の外にあるが、開発時はファイル変更を sitemap rebuild に
 # 伝搬させたいので watcher に登録する。auto-discoverされた .md は下の
 # ArticleSitemap extension で除外し、proxy 経由でのみ配信する。
