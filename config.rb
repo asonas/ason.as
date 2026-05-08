@@ -1,7 +1,7 @@
 # Activate and configure extensions
 # https://middlemanapp.com/advanced/configuration/#configuring-extensions
 
-set :haml, format: :html5
+set :haml, format: :html5, escape_html: false
 
 # Layouts
 # https://middlemanapp.com/basics/layouts/

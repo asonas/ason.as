@@ -1,5 +1,6 @@
 require 'aws-sdk-s3'
 require 'redcarpet'
+require 'rouge'
 require 'html_pipeline'
 require 'yaml'
 require 'pry'
@@ -99,10 +100,15 @@ class Article
   end
 
   def rendered_body
+    # 入力は自分の記事Markdownのみで第三者由来の混入はないため、
+    # Selma サニタイザはオフ。ON のままだと Rouge が付ける
+    # `<span class="...">` のクラス属性を含む全 class が剥がされ、
+    # シンタックスハイライトが効かなくなる。
     pipeline = HTMLPipeline.new(
       text_filters: [EmbedTagFilter.new],
       convert_filter: MarkdownFilter.new,
       node_filters: [BlockquotesFilter.new, ImageTagFilter.new],
+      sanitization_config: nil,
     )
     result = pipeline.call(body)
     result[:output]
@@ -142,10 +148,25 @@ class Article
     }
   end
 
+  # Redcarpet がコードブロックを描画する際、Rouge で server-side ハイライトを掛ける。
+  # 出力する class は Rouge 標準の `.highlight` を採用。テーマCSSは
+  # source/stylesheets/syntax-highlight.css を参照。
+  class HighlightedHTML < Redcarpet::Render::HTML
+    def block_code(code, language)
+      lexer = (language && Rouge::Lexer.find(language)) || Rouge::Lexers::PlainText.new
+      formatter = Rouge::Formatters::HTML.new
+      lexer = lexer.new if lexer.is_a?(Class)
+      lang_class = language ? " language-#{language}" : ""
+      %(<pre class="highlight"><code class="highlight#{lang_class}">) +
+        formatter.format(lexer.lex(code)) +
+        "</code></pre>"
+    end
+  end
+
   class MarkdownFilter < HTMLPipeline::ConvertFilter
     def call(text, context: {})
       markdown = Redcarpet::Markdown.new(
-        Redcarpet::Render::HTML,
+        HighlightedHTML,
         autolink: true,
         fenced_code_blocks: true,
         no_intra_emphasis: true

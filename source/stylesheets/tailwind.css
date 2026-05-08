@@ -71,6 +71,21 @@
   iframe {
     @apply max-w-full;
   }
+
+  pre.highlight {
+    @apply rounded-md p-4 my-4 overflow-x-auto text-sm leading-snug;
+    background-color: #272822;
+    color: #f8f8f2;
+  }
+
+  pre.highlight code {
+    @apply bg-transparent p-0;
+    color: inherit;
+  }
+
+  code {
+    @apply rounded bg-gray-100 px-1.5 py-0.5 text-sm;
+  }
 }
 
 @layer components {
