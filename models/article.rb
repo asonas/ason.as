@@ -246,7 +246,7 @@ class Article
     def fetch_meta_from_cache
       return if @is_youtube
 
-      if client.nil?
+      if client.nil? || BUCKET_NAME.nil? || BUCKET_NAME.empty?
         fetch_meta
         return
       end
