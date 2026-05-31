@@ -1,11 +1,9 @@
 - article = Article.find_by(article_id)
 - set_meta_tags article.to_meta_tags
 
-%article
-  %h2= article.title
-  %small
-    created at:
-    = article.created_at
-  %hr.dotted
-
-  = article.rendered_body
+%article.post
+  %header.post-header
+    %h1.post-title= article.title
+    %p.post-meta= article.created_at.strftime("%Y.%m.%d")
+  .post-body
+    = article.rendered_body

@@ -1,10 +1,10 @@
 - set_meta_tags default_meta_tags
 
-%article.articles
+%p.section-label Articles
+%ul.post-list
   - Article.all.each do |article|
-    %a.block.mb-6.no-underline{ href: article.path }
-      %strong.font-semibold.underline= article.title
-      %p.text-sm
-        = "#{CGI.escapeHTML(article.body_only_text[0..100])}..."
-        %br
-        %small.text-gray-500= article.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    %li.post-item
+      %a.post-link{ href: article.path }
+        %span.post-date= article.created_at.strftime("%Y.%m.%d")
+        %span.post-title= article.title
+        %span.post-excerpt= "#{CGI.escapeHTML(article.body_only_text[0..100])}..."
