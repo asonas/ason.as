@@ -1,5 +1,9 @@
 - article = Article.find_by(article_id)
 - set_meta_tags article.to_meta_tags
+- all = Article.all
+- idx = all.index { |a| a.path == "/articles/#{article_id}" }
+- newer = (idx && idx > 0) ? all[idx - 1] : nil
+- older = (idx && idx < all.size - 1) ? all[idx + 1] : nil
 
 %article.post
   %header.post-header
@@ -7,3 +11,16 @@
     %p.post-meta= article.created_at.strftime("%Y.%m.%d")
   .post-body
     = article.rendered_body
+
+%nav.post-nav
+  - if newer
+    %a.post-nav-link.is-prev{ href: newer.path }
+      %span.post-nav-label 新しい記事
+      %span.post-nav-title= newer.title
+  - if older
+    %a.post-nav-link.is-next{ href: older.path }
+      %span.post-nav-label 古い記事
+      %span.post-nav-title= older.title
+
+%p.post-back
+  %a{ href: "/articles" } 記事一覧へ

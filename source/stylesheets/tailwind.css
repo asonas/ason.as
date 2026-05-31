@@ -162,6 +162,36 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /* 記事詳細の前後記事ナビ */
+  .post-nav {
+    @apply grid gap-4 mt-16 pt-8 border-t border-line;
+  }
+  @media (min-width: 640px) {
+    .post-nav { grid-template-columns: 1fr 1fr; }
+  }
+
+  .post-nav-link { @apply grid gap-1 content-start; }
+  .post-nav-link.is-next { @apply text-right; }
+
+  .post-nav-label {
+    @apply text-xs text-faint;
+    letter-spacing: 0.15em;
+  }
+
+  .post-nav-title {
+    @apply text-base leading-snug;
+    font-family: var(--font-serif);
+    font-weight: 600;
+  }
+
+  .post-nav-link:hover .post-nav-title { @apply text-accent; }
+
+  .post-back {
+    @apply mt-10 text-sm;
+  }
+  .post-back a { @apply text-accent; }
+  .post-back a:hover { @apply text-accent-soft; }
+
   /* 記事詳細 */
   .post-header {
     @apply mb-8 pb-6 border-b border-line;
