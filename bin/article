@@ -1,0 +1,53 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# ブログ記事を操作する CLI。
+# 使い方:
+#   bin/article create SLUG   articles/YYYY-MM-DD-SLUG.md を生成する
+
+require "fileutils"
+
+ARTICLES_DIR = File.expand_path("../articles", __dir__)
+
+def usage
+  warn <<~USAGE
+    Usage: bin/article <command> [args]
+
+    Commands:
+      create SLUG   articles/YYYY-MM-DD-SLUG.md を生成する
+  USAGE
+  exit 1
+end
+
+def create(slug)
+  if slug.nil? || slug.strip.empty?
+    warn "slug を指定してください: bin/article create SLUG"
+    exit 1
+  end
+
+  now = Time.now
+  filename = "#{now.strftime('%Y-%m-%d')}-#{slug}.md"
+  path = File.join(ARTICLES_DIR, filename)
+
+  if File.exist?(path)
+    warn "既に存在します: articles/#{filename}"
+    exit 1
+  end
+
+  File.write(path, <<~MARKDOWN)
+    ---
+    date: #{now.strftime('%Y-%m-%d %H:%M:%S')}
+    title:#{' '}
+    ---
+  MARKDOWN
+
+  puts "created: articles/#{filename}"
+end
+
+command = ARGV.shift
+case command
+when "create"
+  create(ARGV.shift)
+else
+  usage
+end
