@@ -150,6 +150,18 @@
   }
   .more-link:hover { @apply text-accent-soft; }
 
+  /* 記事一覧の年グルーピング */
+  .year-group { @apply mb-12; }
+  .year-group:last-child { @apply mb-0; }
+
+  .year-heading {
+    @apply text-base text-faint mt-0 mb-2 pb-2 border-b border-line;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    font-variant-numeric: tabular-nums;
+  }
+
   /* 記事詳細 */
   .post-header {
     @apply mb-8 pb-6 border-b border-line;
