@@ -111,6 +111,10 @@
 
   .site-nav a { @apply text-muted; }
   .site-nav a:hover { @apply text-accent; }
+  .site-nav a.is-active {
+    @apply text-ink;
+    font-weight: 600;
+  }
 
   /* セクション見出しラベル */
   .section-label {
