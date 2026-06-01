@@ -244,6 +244,12 @@
     letter-spacing: 0.15em;
   }
 
+  /* 区切り文字のない長いURL等が本文幅を超えてはみ出さないよう折り返す */
+  .post-body {
+    overflow-wrap: anywhere;
+    word-break: normal;
+  }
+
   /* 本文内のリンクは差し色＋下線で明示 */
   .post-body a {
     @apply text-accent underline underline-offset-2;
