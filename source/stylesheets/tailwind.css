@@ -92,19 +92,22 @@
     max-width: 48rem;
   }
 
-  /* マストヘッド（サイト共通ヘッダー） */
+  /* マストヘッド（サイト共通ヘッダー）。狭い画面ではブランド上・ナビ下に縦積み */
   .masthead {
-    @apply flex items-baseline justify-between gap-4 pt-10 pb-6 mb-10 border-b border-line;
+    @apply flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 pt-10 pb-6 mb-10 border-b border-line;
   }
 
+  /* ブランドはダーク地・白抜きのロゴバッジ */
   .brand {
-    @apply text-2xl;
+    @apply inline-block bg-ink text-paper px-2.5 py-1 rounded text-2xl leading-none transition-colors;
     font-family: var(--font-serif);
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
-  .brand:hover { @apply text-accent; }
+  .brand:hover {
+    @apply bg-accent text-paper;
+  }
 
   .site-nav {
     @apply flex items-center gap-5 text-sm;
