@@ -5,6 +5,7 @@ require 'html_pipeline'
 require 'yaml'
 require 'pry'
 require 'metainspector'
+require_relative 'embed_cache'
 
 class Article
   def self.all
@@ -104,7 +105,14 @@ class Article
     meta['date']
   end
 
+  # rendered_body は to_meta_tags 内の leadline / image_url など複数経路から
+  # 呼ばれるため、メモ化して embed のネットワーク取得と Markdown レンダリングを
+  # 1記事インスタンスにつき1回に抑える。
   def rendered_body
+    @rendered_body ||= build_rendered_body
+  end
+
+  def build_rendered_body
     # 入力は自分の記事Markdownのみで第三者由来の混入はないため、
     # Selma サニタイザはオフ。ON のままだと Rouge が付ける
     # `<span class="...">` のクラス属性を含む全 class が剥がされ、
@@ -146,11 +154,13 @@ class Article
   end
 
   def contents
-    array = @raw_content.split("---\n", 3)
-    {
-      body: array[2],
-      meta: YAML.safe_load(array[1], permitted_classes: [Time]),
-    }
+    @contents ||= begin
+      array = @raw_content.split("---\n", 3)
+      {
+        body: array[2],
+        meta: YAML.safe_load(array[1], permitted_classes: [Time]),
+      }
+    end
   end
 
   # Redcarpet がコードブロックを描画する際、Rouge で server-side ハイライトを掛ける。
@@ -185,22 +195,22 @@ class Article
   class EmbedTagFilter < HTMLPipeline::TextFilter
     REGEX = %r!\[embed:(https?:\/\/[\w\/:%#\$&\?\(\)~\.=\+\-]+)\]!
     BUCKET_NAME = ENV["BUCKET_NAME"]
+    LOCAL_CACHE_DIR = File.expand_path("../tmp/embed_cache", __dir__)
     YOUTUBE_REGEX = %r{(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/shorts\/)([a-zA-Z0-9_-]{11})}
     attr_accessor :url, :response, :client, :is_youtube, :youtube_id
 
     def call(text, context: {}, result: {})
-      @client = begin
-        Aws::S3::Client.new(region: "ap-northeast-1")
-      rescue Aws::Sigv4::Errors::MissingCredentialsError
-        nil
-      end
-
       new_text = text.dup
 
       matches = []
       text.scan(REGEX) do |url_match|
         matches << url_match[0]
       end
+
+      # embed が無ければ S3 クライアントを作らない（不要な認証情報の解決を避ける）。
+      return new_text if matches.empty?
+
+      @client = build_s3_client if s3_configured?
 
       matches.each do |url|
         @url = url
@@ -272,8 +282,13 @@ class Article
     def fetch_meta_from_cache
       return if @is_youtube
 
+      # S3 が使えない（主に開発環境）場合はローカルファイルキャッシュを使い、
+      # リロードのたびに MetaInspector でライブ取得し直さないようにする。
       if client.nil? || BUCKET_NAME.nil? || BUCKET_NAME.empty?
-        fetch_meta
+        @response = local_cache.fetch(cache_filename) do
+          fetch_meta
+          @response
+        end
         return
       end
 
@@ -282,6 +297,24 @@ class Article
     rescue Aws::S3::Errors::NoSuchKey, Aws::S3::Errors::AccessDenied => e
       fetch_meta
       save_cache
+    end
+
+    def s3_configured?
+      !(BUCKET_NAME.nil? || BUCKET_NAME.empty?)
+    end
+
+    def build_s3_client
+      Aws::S3::Client.new(region: "ap-northeast-1")
+    rescue Aws::Sigv4::Errors::MissingCredentialsError
+      nil
+    end
+
+    def local_cache
+      @local_cache ||= EmbedCache.new(local_cache_dir)
+    end
+
+    def local_cache_dir
+      LOCAL_CACHE_DIR
     end
 
     def fetch_meta
