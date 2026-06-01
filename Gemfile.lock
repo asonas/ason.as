@@ -318,6 +318,7 @@ DEPENDENCIES
   mime-types
   mini_exiftool
   mini_magick
+  minitest
   ostruct
   pry
   pstore

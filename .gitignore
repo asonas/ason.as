@@ -12,3 +12,4 @@ node_modules/
 pnpm
 .pnpm-store/
 .editor-state/
+tmp/

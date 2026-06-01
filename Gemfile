@@ -16,3 +16,7 @@ gem 'pstore'
 gem 'redcarpet'
 gem 'rouge'
 gem 'rubocop'
+
+group :test do
+  gem 'minitest'
+end
