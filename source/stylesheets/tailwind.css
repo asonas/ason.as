@@ -97,9 +97,9 @@
     @apply flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 pt-10 pb-6 mb-10 border-b border-line;
   }
 
-  /* ブランドはダーク地・白抜きのロゴバッジ */
+  /* ブランドはダーク地・白抜きのソリッドなロゴバッジ（角丸なし） */
   .brand {
-    @apply inline-block bg-ink text-paper px-2.5 py-1 rounded text-2xl leading-none transition-colors;
+    @apply inline-block bg-ink text-paper px-2.5 py-1 text-2xl leading-none transition-colors;
     font-family: var(--font-serif);
     font-weight: 600;
     letter-spacing: -0.01em;
