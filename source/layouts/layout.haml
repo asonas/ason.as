@@ -14,8 +14,6 @@
     %link{ rel: "stylesheet", href: fonts_href, media: "print", onload: "this.media='all'" }
     %noscript
       %link{ rel: "stylesheet", href: fonts_href }
-    / FontAwesomeのkitは全アイコンCSSを注入し大半が未使用。レンダリングをブロックしないようasyncで読み込む。
-    %script{ src: "https://kit.fontawesome.com/f10d15f462.js", crossorigin: "anonymous", async: true }
     %link{ rel: "author", href: "http://www.hatena.ne.jp/asonas/" }
     %meta{ name: "Hatena::Bookmark", content: "nocomment" }
 
@@ -32,21 +30,21 @@
       %footer.site-footer
         .social-links
           %a.social-link{ href: "https://github.com/asonas", "aria-label": "GitHub" }
-            %i.fa.fa-github
-          %a.social-link{ href: "https://twitter.com/asonas", "aria-label": "X / Twitter" }
-            %i.fa.fa-twitter
+            = inline_svg("github")
+          %a.social-link{ href: "https://twitter.com/asonas", "aria-label": "Twitter" }
+            = inline_svg("twitter")
           %a.social-link{ href: "https://instagram.com/asonas", "aria-label": "Instagram" }
-            %i.fa.fa-instagram
+            = inline_svg("instagram")
           %a.social-link{ href: "https://www.flickr.com/photos/asonas", "aria-label": "Flickr" }
-            %i.fa.fa-flickr
+            = inline_svg("flickr")
           %a.social-link{ href: "https://facebook.com/asonas.P", "aria-label": "Facebook" }
-            %i.fa.fa-facebook
+            = inline_svg("facebook")
           %a.social-link{ href: "http://tumblr.ason.as/", "aria-label": "Tumblr" }
-            %i.fa.fa-tumblr-square
+            = inline_svg("tumblr")
           %a.social-link{ href: "http://www.amazon.co.jp/registry/wishlist/BLMOXOOR4JFK", "aria-label": "Amazon Wishlist" }
-            %i.fa.fa-amazon
+            = inline_svg("amazon")
           %a.social-link{ href: "https://asonas.hatenadiary.org/", "aria-label": "はてなダイアリー" }
-            %i.fa.fa-book
+            = inline_svg("hatenabookmark")
           %a.social-link{ href: "http://asonas.hatenablog.com/", "aria-label": "はてなブログ" }
             %img{ src: "/images/asonashatenablog.jpg", alt: "はてなブログ" }
         %p.colophon asonas a.k.a Yuya Fujiwara
