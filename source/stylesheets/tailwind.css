@@ -120,10 +120,10 @@
     font-weight: 600;
   }
 
-  /* 記事本文の読み幅（日本語で1行およそ40字）。左に縦罫線を引き本文カラムの範囲を視覚化する */
+  /* 記事本文の読み幅（日本語で1行およそ40字）。中央寄せの読み物カラム */
   .reading {
-    @apply border-l border-line pl-6 md:pl-8;
-    max-width: 42rem;
+    @apply mx-auto;
+    max-width: 40rem;
   }
 
   /* セクション見出しラベル */
