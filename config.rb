@@ -31,6 +31,7 @@ activate :livereload
 # Methods defined in the helpers block are available in templates
 # https://middlemanapp.com/basics/helper-methods/
 require './models/article'
+require './models/meta_tags'
 
 helpers do
   def articles
@@ -42,34 +43,9 @@ helpers do
   def display_meta_tags
     return nil if @@meta_tags.nil?
 
-    metas = []
-    @@meta_tags.each do |k, v|
-      case k
-      when :twitter
-        v.each do |prop, v|
-          metas.push generate_meta_tag(prop, v, "twitter")
-        end
-      when :og
-        v.each do |prop, v|
-          metas.push generate_meta_tag(prop, v, "og")
-        end
-      else
-        metas.push generate_meta_tag(k, v)
-      end
-    end
-
+    html = MetaTags.render(@@meta_tags)
     @@meta_tags = nil
-    metas.join
-  end
-
-  def generate_meta_tag(prop, content, parent=nil)
-    property =
-      if parent
-        "#{parent}:#{prop}"
-      else
-        prop
-      end
-    tag(:meta, property: property, content: content)
+    html
   end
 
   def set_meta_tags(hash=nil)

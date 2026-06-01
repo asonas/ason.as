@@ -20,6 +20,8 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
     "css-loader": "^6.11.0",
+    "css-minimizer-webpack-plugin": "^8.0.0",
+    "mini-css-extract-plugin": "^2.10.2",
     "postcss": "^8.5.14",
     "postcss-loader": "^8.2.1",
     "style-loader": "^3.3.4",
