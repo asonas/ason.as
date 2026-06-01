@@ -116,6 +116,12 @@
     font-weight: 600;
   }
 
+  /* 記事本文の読み幅（日本語で1行およそ40字に収める） */
+  .reading {
+    @apply mx-auto;
+    max-width: 40rem;
+  }
+
   /* セクション見出しラベル */
   .section-label {
     @apply text-xs uppercase text-faint mb-3;
