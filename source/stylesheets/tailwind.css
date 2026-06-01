@@ -159,6 +159,23 @@
     @apply text-sm text-muted leading-relaxed mt-1;
   }
 
+  /* 広い画面では日付を左ガター（欄外）に置く2カラム。縦の仕切り線で日付と本文を区切る */
+  @media (min-width: 768px) {
+    .post-link {
+      grid-template-columns: 7.5rem 1fr;
+      column-gap: 1.75rem;
+    }
+    .post-date {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      align-self: stretch;
+      @apply border-r border-line pr-7;
+      padding-top: 0.35rem;
+    }
+    .post-title { grid-column: 2; grid-row: 1; }
+    .post-excerpt { grid-column: 2; grid-row: 2; @apply mt-0; }
+  }
+
   .more-link {
     @apply inline-block mt-10 text-sm text-accent;
   }
