@@ -324,6 +324,11 @@
   }
   .social-link:hover { @apply text-accent; }
 
+  /* インラインSVGアイコン（CC0: Simple Icons）。fill-current で文字色を継承しホバー色も追従する */
+  .social-link svg {
+    @apply w-5 h-5 m-0 fill-current;
+  }
+
   .social-link img {
     @apply w-5 h-5 m-0 rounded grayscale opacity-70 transition;
   }

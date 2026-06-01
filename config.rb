@@ -38,6 +38,15 @@ helpers do
     Article.all
   end
 
+  # source/images/icons/ 配下のSVG(CC0: Simple Icons)をインライン展開する。
+  # 色とサイズはCSS(.social-link svg)で制御する。リンク側のaria-labelと重複しないよう
+  # aria-hidden を付与し、装飾要素として扱う。
+  def inline_svg(name)
+    path = File.expand_path("source/images/icons/#{name}.svg", __dir__)
+    svg = File.read(path)
+    svg.sub('<svg ', '<svg aria-hidden="true" focusable="false" ').html_safe
+  end
+
   @@meta_tags = nil
 
   def display_meta_tags
@@ -77,6 +86,9 @@ end
 
 page "/articles", layout: "layout"
 page "/articles/*", layout: "layout"
+
+# アイコンSVGは inline_svg ヘルパーでHTMLに直接埋め込むため、単体ファイルとしては配信しない。
+ignore "images/icons/*.svg"
 
 # show.html.haml は ArticleSitemap が proxy のテンプレートとして使うだけ。
 # 直接ビルドされると article_id が未定義になるので除外する。
