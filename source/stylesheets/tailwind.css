@@ -97,12 +97,15 @@
     @apply flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 pt-10 pb-6 mb-10 border-b border-line;
   }
 
-  /* ブランドはダーク地・白抜きのソリッドなロゴバッジ（角丸なし） */
+  /* ブランドはダーク地・白抜きのソリッドなロゴバッジ（角丸なし）。
+     小文字セリフ体は行ボックス内で下寄りになるため、text-box で字面に合わせて上下中央化する */
   .brand {
-    @apply inline-block bg-ink text-paper px-2.5 py-1 text-2xl leading-none transition-colors;
+    @apply inline-block bg-ink text-paper px-2.5 text-2xl leading-none transition-colors;
     font-family: var(--font-serif);
     font-weight: 600;
     letter-spacing: -0.01em;
+    padding-top: 0.35rem;
+    padding-bottom: 0.65rem;
   }
 
   .brand:hover {
