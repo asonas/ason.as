@@ -17,10 +17,12 @@
   --color-accent: #9a3412;
   --color-accent-soft: #c2410c;
 
-  /* タイポグラフィ: 見出しにセリフ(Fraunces)、本文に和文サンセリフ */
+  /* タイポグラフィ: 見出しにセリフ(Fraunces)、本文に和文サンセリフ。
+     和文の見出しはWebフォントを読み込まず、OSの明朝(Hiragino Mincho / Yu Mincho等)へフォールバックする。 */
   --font-sans: "Zen Kaku Gothic New", ui-sans-serif, -apple-system,
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
-  --font-serif: "Fraunces", "Zen Old Mincho", Georgia, "Times New Roman", serif;
+  --font-serif: "Fraunces", "Hiragino Mincho ProN", "Yu Mincho", "YuMincho",
+    "Noto Serif JP", Georgia, "Times New Roman", serif;
 
   /* 既存ユーティリティ互換のためのグレースケール */
   --color-gray-100: #f3f4f6;

@@ -10,7 +10,7 @@
     / サイト本体のCSSは実体ファイルとして読み込む。JS経由(style-loader)で注入するとスタイル適用がJS実行待ちになりレンダリングをブロックするため使わない。
     %link{ rel: "stylesheet", href: "/stylesheets/site.css" }
     / Google Fontsはレンダリングをブロックしないよう、印刷メディアとして読み込んでから全メディアへ切り替える。JS無効環境向けにnoscriptで通常読み込みも残す。
-    - fonts_href = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;600;700&display=swap"
+    - fonts_href = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
     %link{ rel: "stylesheet", href: fonts_href, media: "print", onload: "this.media='all'" }
     %noscript
       %link{ rel: "stylesheet", href: fonts_href }
