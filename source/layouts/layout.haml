@@ -9,8 +9,13 @@
     %link{ rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }
     / サイト本体のCSSは実体ファイルとして読み込む。JS経由(style-loader)で注入するとスタイル適用がJS実行待ちになりレンダリングをブロックするため使わない。
     %link{ rel: "stylesheet", href: "/stylesheets/site.css" }
-    %link{ rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;600;700&display=swap" }
-    %script{ src: "https://kit.fontawesome.com/f10d15f462.js", crossorigin: "anonymous" }
+    / Google Fontsはレンダリングをブロックしないよう、印刷メディアとして読み込んでから全メディアへ切り替える。JS無効環境向けにnoscriptで通常読み込みも残す。
+    - fonts_href = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Zen+Old+Mincho:wght@400;600;700&display=swap"
+    %link{ rel: "stylesheet", href: fonts_href, media: "print", onload: "this.media='all'" }
+    %noscript
+      %link{ rel: "stylesheet", href: fonts_href }
+    / FontAwesomeのkitは全アイコンCSSを注入し大半が未使用。レンダリングをブロックしないようasyncで読み込む。
+    %script{ src: "https://kit.fontawesome.com/f10d15f462.js", crossorigin: "anonymous", async: true }
     %link{ rel: "author", href: "http://www.hatena.ne.jp/asonas/" }
     %meta{ name: "Hatena::Bookmark", content: "nocomment" }
 
