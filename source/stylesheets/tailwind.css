@@ -86,9 +86,10 @@
 }
 
 @layer components {
-  /* コンテナ: 読みやすい本文幅に絞る */
-  .container {
-    @apply px-6 mx-auto w-full max-w-3xl;
+  /* サイト全体の外枠（Tailwind v4 の container ユーティリティと名前が衝突するため .shell を使う） */
+  .shell {
+    @apply px-6 mx-auto w-full;
+    max-width: 48rem;
   }
 
   /* マストヘッド（サイト共通ヘッダー） */
