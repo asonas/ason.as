@@ -86,24 +86,28 @@
 }
 
 @layer components {
-  /* コンテナ: 読みやすい本文幅に絞る */
-  .container {
-    @apply px-6 mx-auto w-full max-w-3xl;
+  /* サイト全体の外枠（Tailwind v4 の container ユーティリティと名前が衝突するため .shell を使う） */
+  .shell {
+    @apply px-6 mx-auto w-full;
+    max-width: 48rem;
   }
 
-  /* マストヘッド（サイト共通ヘッダー） */
+  /* マストヘッド（サイト共通ヘッダー）。狭い画面ではブランド上・ナビ下に縦積み */
   .masthead {
-    @apply flex items-baseline justify-between gap-4 pt-10 pb-6 mb-10 border-b border-line;
+    @apply flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 pt-10 pb-6 mb-10 border-b border-line;
   }
 
+  /* ブランドはダーク地・白抜きのロゴバッジ */
   .brand {
-    @apply text-2xl;
+    @apply inline-block bg-ink text-paper px-2.5 py-1 rounded text-2xl leading-none transition-colors;
     font-family: var(--font-serif);
     font-weight: 600;
     letter-spacing: -0.01em;
   }
 
-  .brand:hover { @apply text-accent; }
+  .brand:hover {
+    @apply bg-accent text-paper;
+  }
 
   .site-nav {
     @apply flex items-center gap-5 text-sm;
@@ -116,10 +120,10 @@
     font-weight: 600;
   }
 
-  /* 記事本文の読み幅（日本語で1行およそ40字に収める） */
+  /* 記事本文の読み幅（日本語で1行およそ40字）。左に縦罫線を引き本文カラムの範囲を視覚化する */
   .reading {
-    @apply mx-auto;
-    max-width: 40rem;
+    @apply border-l border-line pl-6 md:pl-8;
+    max-width: 42rem;
   }
 
   /* セクション見出しラベル */
@@ -153,6 +157,23 @@
 
   .post-excerpt {
     @apply text-sm text-muted leading-relaxed mt-1;
+  }
+
+  /* 広い画面では日付を左ガター（欄外）に置く2カラム。縦の仕切り線で日付と本文を区切る */
+  @media (min-width: 768px) {
+    .post-link {
+      grid-template-columns: 7.5rem 1fr;
+      column-gap: 1.75rem;
+    }
+    .post-date {
+      grid-column: 1;
+      grid-row: 1 / 3;
+      align-self: stretch;
+      @apply border-r border-line pr-7;
+      padding-top: 0.35rem;
+    }
+    .post-title { grid-column: 2; grid-row: 1; }
+    .post-excerpt { grid-column: 2; grid-row: 2; @apply mt-0; }
   }
 
   .more-link {
