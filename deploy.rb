@@ -37,6 +37,15 @@ end
 client.put_object(bucket: bucket, key: "feed", body: File.read("feed"), content_type: "application/rss+xml", acl: acl,
 cache_control: html_cache_control)
 
+# Bluesky OAuthのclient metadataなど、JSONはContent-Type: application/jsonで配信する必要がある。
+# 通常のassetグロブには含まれないため個別にアップロードする。`**/*.json`はドットディレクトリを
+# 辿らないため、.well-known配下は明示的に対象へ加える。内容更新を即反映させたいのでHTMLと同じ再検証ポリシーにする。
+Dir.glob(["**/*.json", ".well-known/*.json"]).each do |file|
+  next if FileTest.directory?(file)
+  client.put_object(bucket: bucket, key: file, body: File.read(file), content_type: "application/json", acl: acl,
+cache_control: html_cache_control)
+end
+
 default_invalidation_items = %w[
   /
   /index.html
