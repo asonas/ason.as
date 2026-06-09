@@ -1,10 +1,9 @@
 ---
 layout: yorumimizuku
 ---
-%a.ym-skip{ href: "#ym-download" } ダウンロードへスキップ
+%a.ym-skip{ href: "#ym-download" } Skip to download
 
 %header.ym-topbar
-  %a.ym-topbar__home{ href: "/" } ason.as
   %nav.ym-topbar__nav
     %a{ href: "https://github.com/asonas/YoruMimizuku" } GitHub
     %a{ href: "https://tangled.org/@ason.as/YoruMimizuku" } Tangled
@@ -20,8 +19,8 @@ layout: yorumimizuku
         YoruMimizuku
         %span.ym-wordmark__ja 夜ミミズク
       %p.ym-lead
-        夜フクロウの流儀を継ぐ、ひと続きのタイムラインを上タブで切り替えるシングルカラム設計。
-        Electron を使わず Swift で書かれた、軽くて静かなネイティブクライアントです。
+        A desktop client for Bluesky and the AT Protocol. One column with tabs across the top,
+        written natively in Swift rather than Electron. Available for macOS and Windows.
       .ym-cta
         %a.ym-btn.ym-btn--mac{ href: "https://github.com/asonas/YoruMimizuku/releases/latest" }
           %span.ym-btn__icon
@@ -36,50 +35,50 @@ layout: yorumimizuku
             %span.ym-btn__kicker Download for
             %span.ym-btn__platform Windows
       %p.ym-cta__note
-        macOS は <code>.dmg</code> ／ Windows は <code>.zip</code>。
-        %a{ href: "https://github.com/asonas/YoruMimizuku/releases" } すべてのリリースを見る →
+        macOS <code>.dmg</code> and Windows <code>.zip</code> builds.
+        %a{ href: "https://github.com/asonas/YoruMimizuku/releases" } See all releases →
 
   %section.ym-section.ym-about
     %p.ym-kicker About
-    %h2 夜に静かに開く、個人のための実験的クライアント
+    %h2 What it is
     %p
-      これは趣味で作っている小さなクライアントで、ふたつの動機から生まれました。
-      ひとつは Bluesky の OAuth を実際に動かしてみたかったこと。
-      クライアント登録もクライアントシークレットも無く、<code>client_id</code> が
-      クライアントメタデータ文書の HTTPS URL そのものという独特の仕組みを、PKCE と DPoP を使って端から端まで実装してみたかったのです。
+      YoruMimizuku is a native desktop client for Bluesky and the AT Protocol. It implements
+      Bluesky's OAuth in full. The flow has no client registration step and no client secret:
+      the <code>client_id</code> is the HTTPS URL of a public client metadata document, and the app
+      authenticates as a public client using PKCE and DPoP.
     %p
-      もうひとつは Swift を Apple のプラットフォームの外でも使ってみたかったこと。
-      そのため通信や OAuth といったプロトコルの中核は、Apple のフレームワークに依存しない移植可能なコアとして切り出してあります。
-      この設計のおかげで、同じコアを Windows の WinUI 3 アプリからも共有できています。
+      The protocol logic — networking, OAuth, XRPC, and token management — lives in a
+      platform-independent core with no Apple-framework dependencies. The macOS app (SwiftUI) and the
+      Windows app (WinUI 3, C# / .NET) share that same core through a C ABI bridge.
 
   %section.ym-section.ym-features
     %p.ym-kicker Features
-    %h2 必要なものだけを、ちゃんと
+    %h2 What it does
     .ym-grid
       %article.ym-card
-        %h3 シングルカラム + 上タブ
-        %p 夜フクロウの流儀。ひとつの列に集中し、タイムラインの切り替えは上部のタブで行います。
+        %h3 Single column with tabs
+        %p One column at a time. Switch between timelines with the tabs across the top.
       %article.ym-card
-        %h3 軽量なネイティブ実装
-        %p Electron を使わず Swift / SwiftUI で実装。メモリ効率の良い小さなフットプリントを目指しています。
+        %h3 Native, not Electron
+        %p Written in Swift and SwiftUI, aiming for a small, memory-efficient footprint.
       %article.ym-card
-        %h3 macOS と Windows
-        %p macOS は SwiftUI、Windows は WinUI 3 (C# / .NET)。同じ Swift コアを C ABI ブリッジ越しに共有します。
+        %h3 macOS and Windows
+        %p SwiftUI on macOS, WinUI 3 (C# / .NET) on Windows, sharing one Swift core via a C ABI bridge.
       %article.ym-card
-        %h3 atproto OAuth
-        %p クライアントシークレットを持たないパブリッククライアントとして、PKCE + DPoP でログインします。
+        %h3 Bluesky OAuth
+        %p Signs in as a public client with PKCE and DPoP. No client secret is stored.
       %article.ym-card
-        %h3 日々の操作ひと通り
-        %p ログイン、タイムライン、投稿、通知、会話の追跡、画像の添付に対応しています。
+        %h3 Everyday actions
+        %p Login, timelines, posting, notifications, conversation threads, and image attachments.
       %article.ym-card
-        %h3 オープンソース
-        %p MIT ライセンス。ソースコードは GitHub と Tangled で公開しています。
+        %h3 Open source
+        %p MIT licensed. The source is published on GitHub and Tangled.
 
   %section.ym-section.ym-download#ym-download
     %p.ym-kicker Download
-    %h2 ダウンロード
+    %h2 Download
     %p.ym-download__lead
-      最新版は GitHub Releases から入手できます。お使いの OS のボタンを選んでください。
+      The latest builds are published on GitHub Releases. Pick the button for your platform.
     .ym-cta.ym-cta--center
       %a.ym-btn.ym-btn--mac{ href: "https://github.com/asonas/YoruMimizuku/releases/latest" }
         %span.ym-btn__icon
@@ -93,25 +92,13 @@ layout: yorumimizuku
         %span.ym-btn__label
           %span.ym-btn__kicker Download for
           %span.ym-btn__platform Windows
-    .ym-reqs
-      .ym-reqs__col
-        %h4 macOS
-        %p 署名・公証済みの <code>.dmg</code>。ダウンロードして起動するだけです。
-      .ym-reqs__col
-        %h4 Windows
-        %p
-          <code>.zip</code> を展開し <code>YoruMimizuku.exe</code> を実行します。
-          初回起動時に不足していれば、.NET / Windows App Runtime / WebView2 の導入を案内します。
 
   %section.ym-section.ym-signing
     %p.ym-kicker Code signing
-    %h2 配布物の署名について
+    %h2 Code signing
     %p.ym-signing__statement
       Windows binaries for YoruMimizuku are code-signed through the SignPath Foundation
       to provide a verifiable link between the open source repository and the distributed application.
-    %p.ym-signing__ja
-      Windows 版のバイナリは <a href="https://signpath.org">SignPath Foundation</a> を通じてコード署名されています。
-      これにより、公開されているソースコードと配布アプリケーションのあいだに検証可能なつながりが生まれます。
     %p.ym-signing__credit
       Free code signing provided by <a href="https://signpath.org">SignPath.io</a>, certificate by <a href="https://signpath.org">SignPath Foundation</a>.
 
