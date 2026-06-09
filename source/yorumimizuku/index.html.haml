@@ -1,0 +1,128 @@
+---
+layout: yorumimizuku
+---
+%a.ym-skip{ href: "#ym-download" } ダウンロードへスキップ
+
+%header.ym-topbar
+  %a.ym-topbar__home{ href: "/" } ason.as
+  %nav.ym-topbar__nav
+    %a{ href: "https://github.com/asonas/YoruMimizuku" } GitHub
+    %a{ href: "https://tangled.org/@ason.as/YoruMimizuku" } Tangled
+
+%main
+  %section.ym-hero
+    .ym-hero__glow
+    .ym-hero__inner
+      .ym-mark{ "aria-hidden": "true" }
+        <svg class="ym-mark__svg" viewBox="0 0 1024 1024" role="img" aria-label="YoruMimizuku" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ymBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#222b40"/><stop offset="0.55" stop-color="#171a22"/><stop offset="1" stop-color="#0f1014"/></linearGradient><linearGradient id="ymOwl" x1="0.2" y1="0" x2="0.8" y2="1"><stop offset="0" stop-color="#bcd0fb"/><stop offset="0.5" stop-color="#6f99f0"/><stop offset="1" stop-color="#4a72d6"/></linearGradient><clipPath id="ymClip"><rect x="100" y="100" width="824" height="824" rx="185" ry="185"/></clipPath></defs><rect x="100" y="100" width="824" height="824" rx="185" ry="185" fill="url(#ymBg)"/><g clip-path="url(#ymClip)"><g transform="translate(100,100) scale(0.8046875)"><g transform="translate(512,540) scale(6.6) translate(-44,-53)"><path fill-rule="evenodd" clip-rule="evenodd" fill="url(#ymOwl)" d="M55.835,84.216c9.414-7.483,15.992-17.259,19.976-30.173c4.586-14.845,4.827-33.432,2.714-51.957c-2.714,2.776-5.671,7.301-8.508,10.802c-13.94,0-30.535,0-43.509,0c-1.026-0.664-1.629-1.931-2.293-2.897C22.345,7.156,20.172,4.017,18.18,1C18.121,1,18.06,1,18,1c0,32.646,0,65.354,0,98C22.042,98.397,43.042,93.206,55.835,84.216 M70.378,41.371C69.534,44.991,67.407,50,62.534,50C61,50,58,50,58,50s-5,0-5.483,0c-2.08,0-4.517-5-5.009-5.311C47,45,45,49.879,42.982,50c0,0-10.982,0-12.07,0c-4.484,0-7.3-8.569-6.697-15.086c0.965-10.319,10.742-13.578,20.819-14.361c12.25-0.846,25.646,3.197,26.009,15.628C71.102,38.293,70.681,40.104,70.378,41.371z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="url(#ymOwl)" d="M57.646,29.604c-3.621,0-6.578,2.957-6.578,6.577c0,3.621,2.957,6.517,6.578,6.517c3.561,0,6.518-2.896,6.518-6.517C64.163,32.56,61.206,29.604,57.646,29.604z"/><path fill-rule="evenodd" clip-rule="evenodd" fill="url(#ymOwl)" d="M36.524,29.604c-3.62,0-6.577,2.957-6.577,6.577c0,3.621,2.957,6.517,6.577,6.517c3.621,0,6.517-2.896,6.517-6.517C43.042,32.56,40.146,29.604,36.524,29.604z"/></g></g></g></svg>
+      %p.ym-eyebrow Bluesky / AT Protocol native client
+      %h1.ym-wordmark
+        YoruMimizuku
+        %span.ym-wordmark__ja 夜ミミズク
+      %p.ym-lead
+        夜フクロウの流儀を継ぐ、ひと続きのタイムラインを上タブで切り替えるシングルカラム設計。
+        Electron を使わず Swift で書かれた、軽くて静かなネイティブクライアントです。
+      .ym-cta
+        %a.ym-btn.ym-btn--mac{ href: "https://github.com/asonas/YoruMimizuku/releases/latest" }
+          %span.ym-btn__icon
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg>
+          %span.ym-btn__label
+            %span.ym-btn__kicker Download for
+            %span.ym-btn__platform macOS
+        %a.ym-btn.ym-btn--win{ href: "https://github.com/asonas/YoruMimizuku/releases/latest" }
+          %span.ym-btn__icon
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 5.486 10.24 4.5v6.99H3V5.486zm0 13.028 7.24.986v-6.91H3v5.924zM11.13 4.38 21 3v8.49h-9.87V4.38zM21 12.51V21l-9.87-1.38v-7.11H21z"/></svg>
+          %span.ym-btn__label
+            %span.ym-btn__kicker Download for
+            %span.ym-btn__platform Windows
+      %p.ym-cta__note
+        macOS は <code>.dmg</code> ／ Windows は <code>.zip</code>。
+        %a{ href: "https://github.com/asonas/YoruMimizuku/releases" } すべてのリリースを見る →
+
+  %section.ym-section.ym-about
+    %p.ym-kicker About
+    %h2 夜に静かに開く、個人のための実験的クライアント
+    %p
+      これは趣味で作っている小さなクライアントで、ふたつの動機から生まれました。
+      ひとつは Bluesky の OAuth を実際に動かしてみたかったこと。
+      クライアント登録もクライアントシークレットも無く、<code>client_id</code> が
+      クライアントメタデータ文書の HTTPS URL そのものという独特の仕組みを、PKCE と DPoP を使って端から端まで実装してみたかったのです。
+    %p
+      もうひとつは Swift を Apple のプラットフォームの外でも使ってみたかったこと。
+      そのため通信や OAuth といったプロトコルの中核は、Apple のフレームワークに依存しない移植可能なコアとして切り出してあります。
+      この設計のおかげで、同じコアを Windows の WinUI 3 アプリからも共有できています。
+
+  %section.ym-section.ym-features
+    %p.ym-kicker Features
+    %h2 必要なものだけを、ちゃんと
+    .ym-grid
+      %article.ym-card
+        %h3 シングルカラム + 上タブ
+        %p 夜フクロウの流儀。ひとつの列に集中し、タイムラインの切り替えは上部のタブで行います。
+      %article.ym-card
+        %h3 軽量なネイティブ実装
+        %p Electron を使わず Swift / SwiftUI で実装。メモリ効率の良い小さなフットプリントを目指しています。
+      %article.ym-card
+        %h3 macOS と Windows
+        %p macOS は SwiftUI、Windows は WinUI 3 (C# / .NET)。同じ Swift コアを C ABI ブリッジ越しに共有します。
+      %article.ym-card
+        %h3 atproto OAuth
+        %p クライアントシークレットを持たないパブリッククライアントとして、PKCE + DPoP でログインします。
+      %article.ym-card
+        %h3 日々の操作ひと通り
+        %p ログイン、タイムライン、投稿、通知、会話の追跡、画像の添付に対応しています。
+      %article.ym-card
+        %h3 オープンソース
+        %p MIT ライセンス。ソースコードは GitHub と Tangled で公開しています。
+
+  %section.ym-section.ym-download#ym-download
+    %p.ym-kicker Download
+    %h2 ダウンロード
+    %p.ym-download__lead
+      最新版は GitHub Releases から入手できます。お使いの OS のボタンを選んでください。
+    .ym-cta.ym-cta--center
+      %a.ym-btn.ym-btn--mac{ href: "https://github.com/asonas/YoruMimizuku/releases/latest" }
+        %span.ym-btn__icon
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.67.91-1.377 0-2.332-1.26-3.428-2.8-1.287-1.82-2.323-4.63-2.323-7.28 0-4.28 2.797-6.55 5.552-6.55 1.448 0 2.675.95 3.6.95.865 0 2.222-1.01 3.902-1.01.613 0 2.886.06 4.374 2.19-.13.09-2.383 1.37-2.383 4.19 0 3.26 2.854 4.42 2.955 4.45z"/></svg>
+        %span.ym-btn__label
+          %span.ym-btn__kicker Download for
+          %span.ym-btn__platform macOS
+      %a.ym-btn.ym-btn--win{ href: "https://github.com/asonas/YoruMimizuku/releases/latest" }
+        %span.ym-btn__icon
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 5.486 10.24 4.5v6.99H3V5.486zm0 13.028 7.24.986v-6.91H3v5.924zM11.13 4.38 21 3v8.49h-9.87V4.38zM21 12.51V21l-9.87-1.38v-7.11H21z"/></svg>
+        %span.ym-btn__label
+          %span.ym-btn__kicker Download for
+          %span.ym-btn__platform Windows
+    .ym-reqs
+      .ym-reqs__col
+        %h4 macOS
+        %p 署名・公証済みの <code>.dmg</code>。ダウンロードして起動するだけです。
+      .ym-reqs__col
+        %h4 Windows
+        %p
+          <code>.zip</code> を展開し <code>YoruMimizuku.exe</code> を実行します。
+          初回起動時に不足していれば、.NET / Windows App Runtime / WebView2 の導入を案内します。
+
+  %section.ym-section.ym-signing
+    %p.ym-kicker Code signing
+    %h2 配布物の署名について
+    %p.ym-signing__statement
+      Windows binaries for YoruMimizuku are code-signed through the SignPath Foundation
+      to provide a verifiable link between the open source repository and the distributed application.
+    %p.ym-signing__ja
+      Windows 版のバイナリは <a href="https://signpath.org">SignPath Foundation</a> を通じてコード署名されています。
+      これにより、公開されているソースコードと配布アプリケーションのあいだに検証可能なつながりが生まれます。
+    %p.ym-signing__credit
+      Free code signing provided by <a href="https://signpath.org">SignPath.io</a>, certificate by <a href="https://signpath.org">SignPath Foundation</a>.
+
+%footer.ym-footer
+  .ym-footer__inner
+    %p.ym-footer__name YoruMimizuku 夜ミミズク
+    %nav.ym-footer__links
+      %a{ href: "https://github.com/asonas/YoruMimizuku" } GitHub
+      %a{ href: "https://tangled.org/@ason.as/YoruMimizuku" } Tangled
+      %a{ href: "https://github.com/asonas/YoruMimizuku/releases" } Releases
+      %a{ href: "/" } ason.as
+    %p.ym-footer__meta
+      MIT License ・ made by
+      %a{ href: "/" } asonas
