@@ -263,6 +263,38 @@
     text-decoration-color: var(--color-accent);
   }
 
+  /* 本文内のリスト。Tailwind の Preflight がマーカーとインデントを消すため、
+     記事本文に限って復元する(記事一覧 .post-list 等の list-none には影響させない)。
+     マーカーはアクセント色にして差し色を効かせる。 */
+  .post-body ul,
+  .post-body ol {
+    @apply my-5 pl-7;
+  }
+  .post-body ul { list-style: disc; }
+  .post-body ol { list-style: decimal; }
+  .post-body ul ul { list-style: circle; }
+  .post-body ul ul ul { list-style: square; }
+
+  .post-body li {
+    @apply mb-2;
+    padding-left: 0.2em;
+  }
+  .post-body li::marker {
+    color: var(--color-accent-soft);
+  }
+
+  /* ネストしたリストは前後の余白を詰める */
+  .post-body li > ul,
+  .post-body li > ol {
+    @apply mt-2 mb-0;
+  }
+
+  /* Redcarpet が loose list で li 内を <p> 包みしても、本文段落の余白(mb-5)で
+     間延びしないよう打ち消す */
+  .post-body li > p {
+    @apply mb-0;
+  }
+
   /* 埋め込みコンテンツ（OGPカード: 画像上・テキスト下） */
   .embed {
     @apply mb-6 border border-line rounded-lg overflow-hidden bg-card;
