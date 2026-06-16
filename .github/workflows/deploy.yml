@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: ap-northeast-1
           role-to-assume: arn:aws:iam::282782318939:role/ActionsAsonasPortfolio
@@ -30,16 +30,16 @@ jobs:
         id: detect-package-manager
         run: |
           if [ -f "${{ github.workspace }}/pnpm-lock.yaml" ]; then
-            echo "::set-output name=manager::pnpm"
-            echo "::set-output name=command::install"
+            echo "manager=pnpm" >> "$GITHUB_OUTPUT"
+            echo "command=install" >> "$GITHUB_OUTPUT"
             exit 0
           elif [ -f "${{ github.workspace }}/yarn.lock" ]; then
-            echo "::set-output name=manager::yarn"
-            echo "::set-output name=command::install"
+            echo "manager=yarn" >> "$GITHUB_OUTPUT"
+            echo "command=install" >> "$GITHUB_OUTPUT"
             exit 0
           elif [ -f "${{ github.workspace }}/package.json" ]; then
-            echo "::set-output name=manager::npm"
-            echo "::set-output name=command::ci"
+            echo "manager=npm" >> "$GITHUB_OUTPUT"
+            echo "command=ci" >> "$GITHUB_OUTPUT"
             exit 0
           else
             echo "Unable to determine packager manager"
@@ -47,13 +47,13 @@ jobs:
           fi
 
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           version: 11
         if: steps.detect-package-manager.outputs.manager == 'pnpm'
 
       - name: Set up Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: 22
           cache: ${{ steps.detect-package-manager.outputs.manager }}
