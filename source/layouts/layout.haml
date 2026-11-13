@@ -1,7 +1,7 @@
 !!! 5
 %html{ lang: "ja" }
   %head
-    %title= "ason.as"
+    %title= escape_html(current_page.data.title || "ason.as")
     %meta{ "http-equiv" => "Content-Type", content: "text/html; charset=UTF-8" }
     %meta{ name: "viewport", content: "width=device-width,initial-scale=1" }
     = display_meta_tags
