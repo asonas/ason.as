@@ -1,0 +1,71 @@
+# git diff に現れたリポジトリ内のファイルパスを、CloudFront で無効化する配信URLのパスへ変換する
+module InvalidationPaths
+  module_function
+
+  ARTICLE_TEMPLATES = %w[
+    source/articles/index.html.haml
+    source/articles/show.html.haml
+  ].freeze
+
+  # site.js が import し、webpack が /stylesheets/site.css へまとめて出力する
+  BUNDLED_STYLESHEETS = %w[
+    source/stylesheets/tailwind.css
+    source/stylesheets/syntax-highlight.css
+  ].freeze
+
+  # ページの描画処理・ビルド設定・依存関係は、どのページの出力を変えるかをファイル名から辿れない
+  SITE_WIDE_DIRECTORIES = %w[
+    source/layouts/
+    source/images/icons/
+    models/
+  ].freeze
+
+  SITE_WIDE_FILES = %w[
+    config.rb
+    webpack.config.js
+    postcss.config.js
+    Gemfile
+    Gemfile.lock
+    package.json
+    pnpm-lock.yaml
+    pnpm-workspace.yaml
+    .ruby-version
+    .github/workflows/deploy.yml
+  ].freeze
+
+  TEMPLATE_EXTENSIONS = %w[.haml .erb .md].freeze
+
+  # Tailwind はページや記事に書かれたクラスから site.css を生成するため、常に無効化する
+  ALWAYS = ["/", "/index.html", "/feed", "/stylesheets/site.css"].freeze
+
+  def for_files(files)
+    paths = (ALWAYS + files.flat_map { |file| for_file(file) }).uniq
+    paths.include?("/*") ? ["/*"] : paths
+  end
+
+  def for_file(file)
+    if ARTICLE_TEMPLATES.include?(file)
+      ["/articles", "/articles/*"]
+    elsif file.start_with?(*SITE_WIDE_DIRECTORIES) || SITE_WIDE_FILES.include?(file)
+      ["/*"]
+    elsif BUNDLED_STYLESHEETS.include?(file)
+      ["/stylesheets/site.css"]
+    elsif file.start_with?("source/")
+      source_paths(file.delete_prefix("source"))
+    elsif file.start_with?("articles/") && file.end_with?(".md")
+      # 記事一覧と前後の記事へのリンクにもタイトルが載るため、記事全体を無効化する
+      ["/articles", "/articles/*"]
+    else
+      []
+    end
+  end
+
+  # S3 のウェブサイトエンドポイントは index.html をディレクトリURLでも返すため、両方を無効化する
+  def source_paths(path)
+    ext = File.extname(path)
+    path = path.delete_suffix(ext) if TEMPLATE_EXTENSIONS.include?(ext)
+    return [path] unless File.basename(path) == "index.html"
+
+    [path.delete_suffix("index.html"), path]
+  end
+end

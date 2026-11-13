@@ -3,7 +3,9 @@ require 'aws-sdk-s3'
 require 'fileutils'
 require 'mime/types'
 require 'net/http'
+require 'open3'
 require 'uri'
+require_relative 'models/invalidation_paths'
 
 base_dir = "./build/"
 Dir.chdir(base_dir)
@@ -46,39 +48,29 @@ Dir.glob(["**/*.json", ".well-known/*.json"]).each do |file|
 cache_control: html_cache_control)
 end
 
-default_invalidation_items = %w[
-  /
-  /index.html
-  /feed
-]
-invalidation_items = default_invalidation_items
-
-prev_revision = Net::HTTP.get(URI.parse("https://ason.as/revision")).chomp
+begin
+  revision_response = Net::HTTP.get_response(URI.parse("https://ason.as/revision"))
+  prev_revision = revision_response.body.to_s.strip
+rescue StandardError => e
+  # アップロードは済んでいるので、ここで止めずに全体を無効化する
+  puts "Failed to fetch the previous revision: #{e.class}: #{e.message}"
+end
 puts prev_revision
 
-templates = %w[
-  source/articles/index.html.haml
-  source/articles/show.html.haml
-  source/layouts/layout.haml
-]
-`git diff #{prev_revision}..master --name-only`.split("\n").each do |file|
-  puts file
-  if templates.include? file
-    invalidation_items.push "/articles"
-    invalidation_items.push "/articles/*"
-  elsif file.start_with? "source"
-    item = "/" + file.gsub("source/", "")
-    if item.end_with?(".scss") || item.end_with?(".css")
-      # CSSはwebpackで /stylesheets/site.css に抽出して配信している。
-      invalidation_items.push "/stylesheets/site.css"
-    else
-      invalidation_items.push item
-    end
-  elsif file.end_with? ".md"
-    # e.g. articles/foo-bar.md -> /articles/foo-bar
-    invalidation_items.push "/" + file.gsub(/\.md$/, "")
-  end
+# 404 の本文や空文字列を revision として git に渡すと、別の範囲の差分が成功扱いで返る
+if revision_response.is_a?(Net::HTTPSuccess) && prev_revision.match?(/\A\h{40}\z/)
+  diff_output, diff_status = Open3.capture2("git", "diff", "--name-only", "#{prev_revision}..HEAD")
 end
+
+invalidation_items =
+  if diff_status&.success?
+    changed_files = diff_output.split("\n")
+    puts changed_files
+    InvalidationPaths.for_files(changed_files)
+  else
+    # 前回のrevisionが辿れないと変更範囲が分からないため、全体を無効化する
+    ["/*"]
+  end
 
 puts invalidation_items.uniq
 
