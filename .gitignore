@@ -13,3 +13,5 @@ pnpm
 .pnpm-store/
 .editor-state/
 tmp/
+.claude/worktrees/
+.dev/contexts/
