@@ -8,6 +8,11 @@ permissions:
   contents: read
   id-token: write
 
+# S3 へのアップロードと revision の更新が別の実行と混ざらないよう直列化する。途中で止めると中途半端な状態が残るため、実行中のものは取り消さない
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
 jobs:
   test:
     runs-on: ubuntu-latest
