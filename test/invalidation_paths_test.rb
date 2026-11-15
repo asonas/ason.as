@@ -16,9 +16,9 @@ class InvalidationPathsTest < Minitest::Test
       InvalidationPaths.for_file("source/stylesheets/syntax-highlight.css")
   end
 
-  # 記事の変更は記事一覧と前後の記事にも載るため記事全体を無効化し、記事以外の .md は配信していないので無視する
-  def test_article_markdown_invalidates_all_articles
-    assert_equal ["/articles", "/articles/*"], InvalidationPaths.for_file("articles/foo-bar.md")
+  # 移行した記事の一覧が変わると旧 URL のリダイレクトが置き直されるため、記事の URL 全体を無効化する
+  def test_moved_articles_list_invalidates_article_redirects
+    assert_equal ["/articles", "/articles/*"], InvalidationPaths.for_file("moved_articles.txt")
     assert_empty InvalidationPaths.for_file("CLAUDE.md")
   end
 

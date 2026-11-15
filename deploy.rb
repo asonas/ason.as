@@ -22,11 +22,6 @@ Dir.glob("**/*.html").each do |file|
   client.put_object(bucket: bucket, key: file, body: File.read(file), content_type: "text/html", acl: acl,
 cache_control: html_cache_control)
 end
-Dir.glob("articles/*").each do |file|
-  client.put_object(bucket: bucket, key: file, body: File.read(file), content_type: "text/html", acl: acl,
-cache_control: html_cache_control)
-end
-
 Dir.glob(["**/*.css", "images/**/*", "javascripts/*"]).each do |file|
   next if FileTest.directory?(file)
   type = MIME::Types.type_for(file).first.to_s
@@ -34,8 +29,17 @@ Dir.glob(["**/*.css", "images/**/*", "javascripts/*"]).each do |file|
 cache_control: asset_cache_control)
 end
 
-client.put_object(bucket: bucket, key: "feed", body: File.read("feed"), content_type: "application/rss+xml", acl: acl,
+# 記事は weblog.ason.as へ移した。S3 のウェブサイトエンドポイントは x-amz-website-redirect-location を持つ
+# オブジェクトへのリクエストを 301 で転送するので、旧 URL のキーに空のオブジェクトを置く
+moved_articles = File.readlines(File.expand_path("moved_articles.txt", __dir__), chomp: true).reject(&:empty?)
+redirects = moved_articles.to_h { |slug| ["articles/#{slug}", "https://weblog.ason.as/#{slug}"] }
+redirects["articles"] = "https://weblog.ason.as/"
+redirects["articles/index.html"] = "https://weblog.ason.as/"
+redirects["feed"] = "https://weblog.ason.as/feed.xml"
+redirects.each do |key, location|
+  client.put_object(bucket: bucket, key: key, body: "", website_redirect_location: location, acl: acl,
 cache_control: html_cache_control)
+end
 
 # Bluesky OAuthのclient metadataなど、JSONはContent-Type: application/jsonで配信する必要がある。
 # 通常のassetグロブには含まれないため個別にアップロードする。`**/*.json`はドットディレクトリを

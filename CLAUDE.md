@@ -2,7 +2,7 @@
 
 ## プロジェクト概要
 
-ason.as - 個人ブログ。Middleman + Webpack (Tailwind CSS) で構成。
+ason.as - 個人サイト。Middleman + Webpack (Tailwind CSS) で構成。記事は weblog.ason.as に移した。旧記事の URL は `moved_articles.txt` をもとに `deploy.rb` が weblog.ason.as へリダイレクトする。
 
 ## 開発環境のセットアップ
 
@@ -14,12 +14,6 @@ pnpm install        # Node依存関係のインストール
 
 ## ローカルサーバーの起動
 
-AWS認証付き（S3キャッシュを使用）:
-```sh
-mairu exec auto -- bundle exec middleman server
-```
-
-AWS認証なしでも起動可能（embedタグのS3キャッシュがスキップされる）:
 ```sh
 bundle exec middleman server
 ```

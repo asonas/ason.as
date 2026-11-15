@@ -2,11 +2,6 @@
 module InvalidationPaths
   module_function
 
-  ARTICLE_TEMPLATES = %w[
-    source/articles/index.html.haml
-    source/articles/show.html.haml
-  ].freeze
-
   # site.js が import し、webpack が /stylesheets/site.css へまとめて出力する
   BUNDLED_STYLESHEETS = %w[
     source/stylesheets/tailwind.css
@@ -35,8 +30,8 @@ module InvalidationPaths
 
   TEMPLATE_EXTENSIONS = %w[.haml .erb .md].freeze
 
-  # Tailwind はページや記事に書かれたクラスから site.css を生成するため、常に無効化する
-  ALWAYS = ["/", "/index.html", "/feed", "/stylesheets/site.css"].freeze
+  # Tailwind はページに書かれたクラスから site.css を生成するため、常に無効化する
+  ALWAYS = ["/", "/index.html", "/stylesheets/site.css"].freeze
 
   def for_files(files)
     paths = (ALWAYS + files.flat_map { |file| for_file(file) }).uniq
@@ -44,7 +39,8 @@ module InvalidationPaths
   end
 
   def for_file(file)
-    if ARTICLE_TEMPLATES.include?(file)
+    if file == "moved_articles.txt"
+      # deploy.rb がこの一覧から記事の旧 URL のリダイレクトを置き直す
       ["/articles", "/articles/*"]
     elsif file.start_with?(*SITE_WIDE_DIRECTORIES) || SITE_WIDE_FILES.include?(file)
       ["/*"]
@@ -52,9 +48,6 @@ module InvalidationPaths
       ["/stylesheets/site.css"]
     elsif file.start_with?("source/")
       source_paths(file.delete_prefix("source"))
-    elsif file.start_with?("articles/") && file.end_with?(".md")
-      # 記事一覧と前後の記事へのリンクにもタイトルが載るため、記事全体を無効化する
-      ["/articles", "/articles/*"]
     else
       []
     end

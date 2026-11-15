@@ -23,8 +23,7 @@
         %a.brand{ href: "/" } ason.as
         %nav.site-nav
           %a{ href: "/", class: ("is-active" if current_page.url == "/") } トップ
-          %a{ href: "/articles", class: ("is-active" if current_page.url.start_with?("/articles")) } 記事一覧
-          %a{ href: "/feed" } Feed
+          %a{ href: "https://weblog.ason.as/" } weblog
       %main
         = yield
       %footer.site-footer

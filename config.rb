@@ -30,14 +30,9 @@ activate :livereload
 # Helpers
 # Methods defined in the helpers block are available in templates
 # https://middlemanapp.com/basics/helper-methods/
-require './models/article'
 require './models/meta_tags'
 
 helpers do
-  def articles
-    Article.all
-  end
-
   # source/images/icons/ 配下のSVG(CC0: Simple Icons)をインライン展開する。
   # 色とサイズはCSS(.social-link svg)で制御する。リンク側のaria-labelと重複しないよう
   # aria-hidden を付与し、装飾要素として扱う。
@@ -84,48 +79,8 @@ helpers do
   end
 end
 
-page "/articles", layout: "layout"
-page "/articles/*", layout: "layout"
-
 # アイコンSVGは inline_svg ヘルパーでHTMLに直接埋め込むため、単体ファイルとしては配信しない。
 ignore "images/icons/*.svg"
-
-# show.html.haml は ArticleSitemap が proxy のテンプレートとして使うだけ。
-# 直接ビルドされると article_id が未定義になるので除外する。
-ignore "articles/show.html"
-
-# 記事Markdownは source/ の外にあるが、開発時はファイル変更を sitemap rebuild に
-# 伝搬させたいので watcher に登録する。auto-discoverされた .md は下の
-# ArticleSitemap extension で除外し、proxy 経由でのみ配信する。
-files.watch :source, path: File.expand_path("articles", __dir__)
-
-# articles/*.md を毎回 sitemap rebuild 時に再スキャンして proxy 化する。
-# これにより記事の追加・削除・本文変更がサーバ再起動なしで反映される。
-class ArticleSitemap < Middleman::Extension
-  def manipulate_resource_list(resources)
-    articles_root = File.expand_path("articles", @app.root)
-    prefix = articles_root + File::SEPARATOR
-
-    filtered = resources.reject do |r|
-      r.source_file && r.source_file.start_with?(prefix)
-    end
-
-    Dir.glob(File.join(articles_root, "*.md")).each do |path|
-      id = File.basename(path, ".md")
-      resource = Middleman::Sitemap::ProxyResource.new(
-        @app.sitemap, "articles/#{id}", "articles/show.html"
-      )
-      resource.add_metadata(locals: { article_id: id }, options: { layout: "layout" })
-      filtered << resource
-    end
-
-    filtered
-  end
-end
-Middleman::Extensions.register(:article_sitemap, ArticleSitemap)
-activate :article_sitemap
-
-proxy("/feed", "feed.xml", ignore: true)
 
 cmd =
   if build?
