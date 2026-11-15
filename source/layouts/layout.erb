@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<title><%= escape_html(current_page.data.title || "ason.as") %></title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<%= display_meta_tags %>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<!-- サイト本体のCSSは実体ファイルとして読み込む。JS経由(style-loader)で注入するとスタイル適用がJS実行待ちになりレンダリングをブロックするため使わない。 -->
+<link rel="stylesheet" href="/stylesheets/site.css">
+<!-- Google Fontsはレンダリングをブロックしないよう、印刷メディアとして読み込んでから全メディアへ切り替える。JS無効環境向けにnoscriptで通常読み込みも残す。 -->
+<% fonts_href = "https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&amp;family=Zen+Kaku+Gothic+New:wght@400;700&amp;display=swap" %>
+<link rel="stylesheet" href="<%= fonts_href %>" media="print" onload="this.media='all'">
+<noscript>
+<link rel="stylesheet" href="<%= fonts_href %>">
+</noscript>
+<link rel="author" href="http://www.hatena.ne.jp/asonas/">
+<meta name="Hatena::Bookmark" content="nocomment">
+</head>
+<body>
+<div class="shell">
+<header class="masthead">
+<a class="brand" href="/">ason.as</a>
+<nav class="site-nav">
+<a class="<%= "is-active" if current_page.url == "/" %>" href="/">トップ</a>
+<a href="https://weblog.ason.as/">weblog</a>
+</nav>
+</header>
+<main>
+<%= yield %>
+</main>
+<footer class="site-footer">
+<div class="social-links">
+<a class="social-link" href="https://github.com/asonas" aria-label="GitHub"><%= inline_svg("github") %></a>
+<a class="social-link" href="https://twitter.com/asonas" aria-label="Twitter"><%= inline_svg("twitter") %></a>
+<a class="social-link" href="https://instagram.com/asonas" aria-label="Instagram"><%= inline_svg("instagram") %></a>
+<a class="social-link" href="https://www.flickr.com/photos/asonas" aria-label="Flickr"><%= inline_svg("flickr") %></a>
+<a class="social-link" href="https://facebook.com/asonas.P" aria-label="Facebook"><%= inline_svg("facebook") %></a>
+<a class="social-link" href="http://tumblr.ason.as/" aria-label="Tumblr"><%= inline_svg("tumblr") %></a>
+<a class="social-link" href="http://www.amazon.co.jp/registry/wishlist/BLMOXOOR4JFK" aria-label="Amazon Wishlist"><%= inline_svg("amazon") %></a>
+<a class="social-link" href="https://asonas.hatenadiary.org/" aria-label="はてなダイアリー"><%= inline_svg("hatenabookmark") %></a>
+<a class="social-link" href="http://asonas.hatenablog.com/" aria-label="はてなブログ"><img src="/images/asonashatenablog.jpg" alt="はてなブログ"></a>
+</div>
+<p class="colophon">asonas a.k.a Yuya Fujiwara</p>
+</footer>
+</div>
+</body>
+</html>

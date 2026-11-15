@@ -224,7 +224,6 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk-cloudfront
   aws-sdk-s3
-  haml (~> 6.0)
   middleman (~> 4.2)
   middleman-livereload
   mime-types
