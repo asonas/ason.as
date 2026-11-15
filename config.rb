@@ -79,16 +79,3 @@ end
 
 # アイコンSVGは inline_svg ヘルパーでHTMLに直接埋め込むため、単体ファイルとしては配信しない。
 ignore "images/icons/*.svg"
-
-cmd =
-  if build?
-    "NODE_ENV=production npm run build"
-  else
-    "NODE_ENV=develop npm run develop"
-  end
-activate :external_pipeline, {
-  name: :webpack,
-  command: cmd,
-  source: "build",
-  latency: 1,
-}

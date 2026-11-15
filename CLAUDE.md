@@ -2,14 +2,13 @@
 
 ## プロジェクト概要
 
-ason.as - 個人サイト。Middleman + Webpack (Tailwind CSS) で構成。記事は weblog.ason.as に移した。旧記事の URL は `moved_articles.txt` をもとに `deploy.rb` が weblog.ason.as へリダイレクトする。
+ason.as - 個人サイト。Middleman で構成し、テンプレートは ERB、CSS は `source/stylesheets/site.css` に素の CSS で書く。トップページのアプリと登壇は `data/apps.yml`・`data/talks.yml` から描画する。記事は weblog.ason.as に移した。旧記事の URL は `moved_articles.txt` をもとに `deploy.rb` が weblog.ason.as へリダイレクトする。
 
 ## 開発環境のセットアップ
 
 ```sh
-mise install        # Ruby 3.4.5をインストール
+mise install        # .ruby-version の Ruby をインストール
 bundle install      # gem依存関係のインストール
-pnpm install        # Node依存関係のインストール
 ```
 
 ## ローカルサーバーの起動

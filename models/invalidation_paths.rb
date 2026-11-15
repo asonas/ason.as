@@ -2,12 +2,6 @@
 module InvalidationPaths
   module_function
 
-  # site.js が import し、webpack が /stylesheets/site.css へまとめて出力する
-  BUNDLED_STYLESHEETS = %w[
-    source/stylesheets/tailwind.css
-    source/stylesheets/syntax-highlight.css
-  ].freeze
-
   # ページの描画処理・ビルド設定・依存関係は、どのページの出力を変えるかをファイル名から辿れない
   SITE_WIDE_DIRECTORIES = %w[
     source/layouts/
@@ -17,21 +11,15 @@ module InvalidationPaths
 
   SITE_WIDE_FILES = %w[
     config.rb
-    webpack.config.js
-    postcss.config.js
     Gemfile
     Gemfile.lock
-    package.json
-    pnpm-lock.yaml
-    pnpm-workspace.yaml
     .ruby-version
     .github/workflows/deploy.yml
   ].freeze
 
   TEMPLATE_EXTENSIONS = %w[.haml .erb .md].freeze
 
-  # Tailwind はページに書かれたクラスから site.css を生成するため、常に無効化する
-  ALWAYS = ["/", "/index.html", "/stylesheets/site.css"].freeze
+  ALWAYS = ["/", "/index.html"].freeze
 
   def for_files(files)
     paths = (ALWAYS + files.flat_map { |file| for_file(file) }).uniq
@@ -44,8 +32,6 @@ module InvalidationPaths
       ["/articles", "/articles/*"]
     elsif file.start_with?(*SITE_WIDE_DIRECTORIES) || SITE_WIDE_FILES.include?(file)
       ["/*"]
-    elsif BUNDLED_STYLESHEETS.include?(file)
-      ["/stylesheets/site.css"]
     elsif file.start_with?("source/")
       source_paths(file.delete_prefix("source"))
     else

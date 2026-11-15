@@ -1,0 +1,195 @@
+/* 文章は狭い1カラムに置き、アプリだけを画面幅いっぱいの色の帯にする */
+:root {
+  --bg: #f3f4f6;
+  --ink: #111827;
+  --muted: #4b5563;
+  --line: #d1d5db;
+  --accent: #2337c6;
+  --chip: #e5e7eb;
+
+  --font-display: "Bricolage Grotesque", "Hiragino Sans", "Zen Kaku Gothic New", system-ui, sans-serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --measure: 44rem;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #12141a;
+    --ink: #eceef2;
+    --muted: #a2a9b6;
+    --line: #2b303a;
+    --accent: #a5b4ff;
+    --chip: #1f232c;
+  }
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+.wrap {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- hero ---------- */
+.hero { padding-block: 4.5rem 2.5rem; display: grid; gap: 1.5rem; }
+.hero h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(3.5rem, 15vw, 7.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.045em;
+}
+.hero .aka { margin: 0; font-family: var(--font-mono); font-size: 0.875rem; color: var(--muted); }
+.hero .intro { margin: 0; max-width: 34rem; font-size: 1.0625rem; }
+.draft { font-family: var(--font-mono); font-size: 0.6875rem; color: var(--muted); background: var(--chip); padding: 0.1em 0.5em; border-radius: 3px; white-space: nowrap; vertical-align: 0.15em; }
+
+.socials { display: flex; flex-wrap: wrap; gap: 0.25rem; margin: 0 0 4rem; padding: 0; list-style: none; }
+.socials a { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; color: var(--muted); border-radius: 6px; }
+.socials a:hover { color: var(--ink); background: var(--chip); }
+.socials svg { width: 1.05rem; height: 1.05rem; fill: currentColor; }
+.socials img { width: 1.05rem; height: 1.05rem; border-radius: 3px; filter: grayscale(1); opacity: 0.8; }
+.socials a:hover img { filter: none; opacity: 1; }
+
+/* ---------- weblog ---------- */
+.weblog {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  margin-block: 0.5rem 0;
+  padding: 1.25rem 1.5rem;
+  border: 1.5px solid var(--ink);
+  border-radius: 10px;
+  text-decoration: none;
+}
+.weblog:hover { background: var(--ink); color: var(--bg); }
+.weblog .label { font-family: var(--font-mono); font-size: 0.75rem; opacity: 0.75; display: block; }
+.weblog .host { font-family: var(--font-display); font-weight: 800; font-size: clamp(1.5rem, 5vw, 2.125rem); letter-spacing: -0.02em; line-height: 1.2; }
+.weblog .arrow { font-family: var(--font-display); font-size: 2rem; line-height: 1; transition: translate 160ms ease-out; }
+.weblog:hover .arrow { translate: 4px 0; }
+
+/* ---------- section heads ---------- */
+.section-head { padding-block: 0 1.25rem; }
+.section-head h2 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.75rem; letter-spacing: -0.02em; }
+
+/* ---------- apps ---------- */
+.apps { display: grid; margin-bottom: 5rem; }
+.app {
+  --band-bg: #000;
+  --band-fg: #fff;
+  background: var(--band-bg);
+  color: var(--band-fg);
+  overflow: hidden;
+  padding-block: 3.5rem 3.25rem;
+}
+/* 帯は地と文字の2色を1組で決め、どちらのテーマでも同じ色にする。どの組もコントラスト比 9:1 以上 */
+.app--komado { --band-bg: #cfe6d8; --band-fg: #12372a; }
+.app--syncstr { --band-bg: #1c2a7a; --band-fg: #cdf5de; }
+.app--kikimimi { --band-bg: #f3c6cf; --band-fg: #3b0f1d; }
+.app--yorumimizuku { --band-bg: #161a26; --band-fg: #b9c8ff; }
+
+.app .wrap { max-width: 68rem; container-type: inline-size; }
+.app .name {
+  margin: 0 0 2rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  /* 文字を拡大しても帯の幅に収まるよう、大きさは帯の幅から決める。それでも入らなければ折り返す */
+  font-size: clamp(3rem, 12vw, 8.5rem);
+  font-size: min(8.5rem, 13cqi);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+/* 列幅を固定して、どの帯でもアイコンと説明の左端を揃える */
+.app .body {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr) 12rem;
+  max-width: 60rem;
+  margin-inline: auto;
+  align-items: center;
+  gap: 1.5rem 2.5rem;
+}
+.app .platform { margin: 0 0 0.5rem; font-family: var(--font-mono); font-size: 0.8125rem; }
+.app .desc { margin: 0; }
+.app .icon { display: block; width: 6rem; height: 6rem; margin: 0; border-radius: 22%; box-shadow: 0 0 0 1.5px var(--band-fg); }
+/* 角まで絵があるアイコン以外は、枠線と重ならないよう内側に余白を取る */
+.app .icon--inset { padding: 0.5rem; }
+.app .links { display: flex; flex-direction: column; gap: 0.5rem; align-items: stretch; }
+.app .links a,
+.app .links span {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1.5px solid currentColor;
+}
+.app .links a:hover { background: var(--band-fg); color: var(--band-bg); }
+.app .links span { border-style: dashed; font-weight: 400; }
+.app a:focus-visible { outline-color: currentColor; }
+.app .draft { color: inherit; background: none; border: 1px solid currentColor; }
+
+@media (max-width: 720px) {
+  .app .body { grid-template-columns: 6rem minmax(0, 1fr); }
+  .app .links { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .app .body { grid-template-columns: minmax(0, 1fr); justify-items: center; text-align: center; }
+  .app .icon { width: 4.5rem; height: 4.5rem; }
+}
+
+/* アプリ名は読んでいる間は中央に止め、帯が画面から出るときだけ横へ流す。scroll-driven animations が無いブラウザでは止まったまま */
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    @keyframes drift { to { translate: -12% 0; } }
+    .app .name {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: exit;
+    }
+  }
+}
+
+/* ---------- talks ---------- */
+.talks { margin-bottom: 5rem; }
+.stage { list-style: none; margin: 0 0 1.5rem; padding: 0; display: grid; border-top: 1.5px solid var(--ink); }
+.talk { border-bottom: 1px solid var(--line); }
+.talk a { display: grid; gap: 0.3rem; padding-block: 1.1rem 1.25rem; text-decoration: none; }
+.talk .when { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; color: var(--accent); letter-spacing: 0.02em; }
+.talk .title { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.25rem, 3.6vw, 1.625rem); line-height: 1.25; letter-spacing: -0.015em; text-wrap: balance; overflow-wrap: anywhere; }
+.talk a:hover .title { color: var(--accent); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+.talks .more { font-family: var(--font-mono); font-size: 0.8125rem; color: var(--accent); }
+
+/* ---------- 読み物（Komado のプライバシーポリシーなど） ---------- */
+.prose { padding-block: 4.5rem 4rem; max-width: 40rem; }
+.prose h1 { margin: 0 0 0.5rem; font-family: var(--font-display); font-weight: 800; font-size: clamp(1.75rem, 6vw, 2.5rem); line-height: 1.2; letter-spacing: -0.02em; text-wrap: balance; }
+.prose .meta { margin: 0 0 2.5rem; font-family: var(--font-mono); font-size: 0.8125rem; color: var(--muted); }
+.prose h2 { margin: 2.5rem 0 0.75rem; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.01em; }
+.prose p { margin: 0 0 1.25rem; }
+.prose a { color: var(--accent); text-underline-offset: 3px; }
+
+/* ---------- footer ---------- */
+.site-footer { border-top: 1px solid var(--line); padding-block: 1.5rem 3rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); }
+.site-footer p { margin: 0; }
+.site-footer a { text-decoration: none; }
+.site-footer a:hover { color: var(--ink); }

@@ -1,6 +1,78 @@
 <% set_meta_tags default_meta_tags %>
-<p>
-記事は
-<a href="https://weblog.ason.as/">weblog.ason.as</a>
-に移りました。
-</p>
+<main>
+<div class="wrap">
+<header class="hero">
+<h1>asonas</h1>
+<p class="aka">asonas a.k.a Yuya Fujiwara</p>
+<p class="intro">Ruby で自由に音を鳴らすことに執着している Web アプリケーションエンジニアです。</p>
+<a class="weblog" href="https://weblog.ason.as/">
+<span>
+<span class="label">ウェブログ</span>
+<span class="host">weblog.ason.as</span>
+</span>
+<span class="arrow" aria-hidden="true">&rarr;</span>
+</a>
+</header>
+
+<ul class="socials" aria-label="SNS とほかのサイト">
+<li><a href="https://github.com/asonas" aria-label="GitHub"><%= inline_svg("github") %></a></li>
+<li><a href="https://twitter.com/asonas" aria-label="Twitter"><%= inline_svg("twitter") %></a></li>
+<li><a href="https://instagram.com/asonas" aria-label="Instagram"><%= inline_svg("instagram") %></a></li>
+<li><a href="https://www.flickr.com/photos/asonas" aria-label="Flickr"><%= inline_svg("flickr") %></a></li>
+<li><a href="https://facebook.com/asonas.P" aria-label="Facebook"><%= inline_svg("facebook") %></a></li>
+<li><a href="http://tumblr.ason.as/" aria-label="Tumblr"><%= inline_svg("tumblr") %></a></li>
+<li><a href="http://www.amazon.co.jp/registry/wishlist/BLMOXOOR4JFK" aria-label="Amazon Wishlist"><%= inline_svg("amazon") %></a></li>
+<li><a href="https://asonas.hatenadiary.org/" aria-label="はてなダイアリー"><%= inline_svg("hatenabookmark") %></a></li>
+<li><a href="http://asonas.hatenablog.com/" aria-label="はてなブログ"><img src="/images/asonashatenablog.jpg" alt=""></a></li>
+</ul>
+
+<div class="section-head">
+<h2 id="apps">つくったアプリ</h2>
+</div>
+</div>
+
+<section class="apps" aria-labelledby="apps">
+<% data.apps.each do |app| %>
+<article class="app app--<%= escape_html(app.slug) %>">
+<div class="wrap">
+<h3 class="name"><%= escape_html(app.name) %></h3>
+<div class="body">
+<img class="icon<%= " icon--inset" if app.icon_inset %>" src="/images/apps/<%= escape_html(app.slug) %>.png" alt="<%= escape_html(app.name) %> のアイコン" width="96" height="96">
+<div>
+<p class="platform"><%= escape_html(app.platform) %></p>
+<p class="desc"><%= escape_html(app.description) %><% if app.draft %> <span class="draft">仮の文章</span><% end %></p>
+</div>
+<div class="links">
+<% app.links.each do |link| %>
+<% if link.url %>
+<a href="<%= escape_html(link.url) %>"><%= escape_html(link.label) %></a>
+<% else %>
+<span><%= escape_html(link.label) %></span>
+<% end %>
+<% end %>
+</div>
+</div>
+</div>
+</article>
+<% end %>
+</section>
+
+<div class="wrap">
+<section class="talks" aria-labelledby="talks">
+<div class="section-head">
+<h2 id="talks">登壇</h2>
+</div>
+<ol class="stage">
+<% data.talks.each do |talk| %>
+<li class="talk">
+<a href="<%= escape_html(talk.url) %>">
+<span class="when"><%= escape_html(talk.conference) %></span>
+<span class="title"><%= escape_html(talk.title) %></span>
+</a>
+</li>
+<% end %>
+</ol>
+<a class="more" href="https://speakerdeck.com/asonas">ほかの登壇資料（Speaker Deck） &rarr;</a>
+</section>
+</div>
+</main>

@@ -1,0 +1,41 @@
+# トップページの「つくったアプリ」の帯。上から順に並ぶ
+# - slug: 帯の色の class（.app--<slug>）とアイコンのファイル名（images/apps/<slug>.png）
+# - icon_inset: 透過のアイコンで、枠線との間に余白を取るとき true
+# - draft: 説明文が仮のとき true
+# - links: url の無いものは点線の枠で文字だけ出す
+- slug: komado
+  name: Komado
+  platform: Windows 11 / 漫画ビューワー
+  description: ZIP・PDF・画像フォルダを、解凍せずにそのまま読める漫画ビューワー。ページの向きに合わせて、単ページと見開きを自動で切り替えます。
+  icon_inset: true
+  links:
+    - label: Microsoft Store
+      url: https://apps.microsoft.com/detail/9N3GRRDSFRDZ
+    - label: プライバシーポリシー
+      url: /komado/policy/
+
+- slug: syncstr
+  name: Syncstr
+  platform: macOS / iPhone / 音楽プレイヤー
+  description: 自分で管理している音楽ライブラリを、Mac と iPhone で聴くためのプレイヤー。オフラインでも保存したライブラリから再生できます。
+  links:
+    - label: GitHub
+      url: https://github.com/asonas/syncstr
+
+- slug: kikimimi
+  name: Kikimimi
+  platform: macOS / 録音と文字起こし
+  description: オンライン会議の音声を自分の Mac で録音し、端末内で文字起こしするアプリ。
+  draft: true
+  links:
+    - label: リンク未定
+
+- slug: yorumimizuku
+  name: YoruMimizuku
+  platform: macOS / Windows / Bluesky クライアント
+  description: Bluesky のデスクトップクライアント。1 カラムのタイムラインを上のタブで切り替えます。Swift で書いた共通部分を、Windows 版からも使っています。
+  links:
+    - label: 紹介ページ
+      url: /yorumimizuku/
+    - label: GitHub
+      url: https://github.com/asonas/YoruMimizuku

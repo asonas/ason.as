@@ -1,0 +1,12 @@
+# トップページの「登壇」。新しい順に並べる
+- conference: RubyKaigi 2026
+  title: "From Live Code to Sound: Building a Ruby Live Coding Engine"
+  url: https://speakerdeck.com/asonas/from-live-code-to-sound-building-a-ruby-live-coding-engine
+
+- conference: RubyKaigi 2025
+  title: How to make the Groovebox
+  url: https://speakerdeck.com/asonas/how-to-make-the-groovebox
+
+- conference: Kaigi on Rails 2021
+  title: The ScrumMaster's Guide to the Galaxy
+  url: https://speakerdeck.com/asonas/the-scrummasters-guide-to-the-galaxy

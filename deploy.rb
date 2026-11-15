@@ -15,14 +15,14 @@ client = Aws::S3::Client.new(region: region)
 
 # HTMLは更新を即座に反映したいので常に再検証させる。配信時はCloudFrontのinvalidationで鮮度を担保する。
 html_cache_control = "public, max-age=0, must-revalidate"
-# CSS/JS/画像は長期キャッシュさせる。これらが変更された場合は下のinvalidationでCloudFront側を無効化する。
+# CSS/画像は長期キャッシュさせる。これらが変更された場合は下のinvalidationでCloudFront側を無効化する。
 asset_cache_control = "public, max-age=31536000"
 
 Dir.glob("**/*.html").each do |file|
   client.put_object(bucket: bucket, key: file, body: File.read(file), content_type: "text/html", acl: acl,
 cache_control: html_cache_control)
 end
-Dir.glob(["**/*.css", "images/**/*", "javascripts/*"]).each do |file|
+Dir.glob(["**/*.css", "images/**/*"]).each do |file|
   next if FileTest.directory?(file)
   type = MIME::Types.type_for(file).first.to_s
   client.put_object(bucket: bucket, key: file, body: File.read(file), content_type: type, acl: acl,
