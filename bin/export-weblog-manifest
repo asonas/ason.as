@@ -68,6 +68,11 @@ def convert_embeds(body, slug)
     id = Regexp.last_match(1)
     own_line(SPEAKER_DECK_URLS.fetch(id) { raise "#{slug}: unknown Speaker Deck id #{id}" })
   end
+  # ason.as の [embed:] は YouTube を動画にしていた。weblog で動画になるのは URL だけの行
+  body = body.gsub(%r{\[embed:(https://(?:www\.)?(?:youtube\.com|youtu\.be)/[^\]\s]+)\]}) do
+    own_line(Regexp.last_match(1))
+  end
+  body = body.gsub(%r{<cite>(.*?)</cite>}m, '\1')
   body.gsub(%r{<script[^>]*(?:platform\.(?:twitter|x)\.com|instagram\.com/embed\.js)[^>]*>\s*</script>}, "")
 end
 
@@ -77,10 +82,11 @@ def outside_code(body)
   parts.each_with_index.map { |part, index| index.odd? ? part : yield(part) }.join
 end
 
+# weblog はどのタグもエスケープして表示するので、タグ名を限らずに探す。`<https://...>` の自動リンクとインラインコードは除く
 def remaining_html(body)
   found = []
   outside_code(body) do |part|
-    found.concat(part.scan(%r{</?(?:blockquote|iframe|script|div|span|img|p|a|br)\b[^>]*>}i))
+    found.concat(part.gsub(/`[^`\n]*`/, "").scan(%r{</?[A-Za-z][A-Za-z0-9-]*(?:\s[^>]*)?/?>}))
     part
   end
   found
@@ -122,8 +128,8 @@ articles = Dir.glob(File.join(ROOT, "articles/*.md")).sort.map do |path|
       "](/#{images[file]})"
     end
     part = part.gsub(%r{https://ason\.as/articles/([A-Za-z0-9_-]+)}) { "#{WEBLOG_ORIGIN}/#{Regexp.last_match(1)}" }
-    convert_embeds(part, slug)
-  end.gsub(/\n{3,}/, "\n\n").strip + "\n"
+    convert_embeds(part, slug).gsub(/\n{3,}/, "\n\n")
+  end.strip + "\n"
 
   leftover = remaining_html(body)
   problems << "#{slug}: #{leftover.uniq.join(' ')}" unless leftover.empty?
