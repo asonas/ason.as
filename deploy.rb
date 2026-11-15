@@ -2,9 +2,7 @@ require 'aws-sdk-cloudfront'
 require 'aws-sdk-s3'
 require 'fileutils'
 require 'mime/types'
-require 'net/http'
 require 'open3'
-require 'uri'
 require_relative 'models/invalidation_paths'
 
 base_dir = "./build/"
@@ -48,17 +46,17 @@ Dir.glob(["**/*.json", ".well-known/*.json"]).each do |file|
 cache_control: html_cache_control)
 end
 
+# CloudFront 経由では /revision の invalidation が終わる前の古い値が返りうるので、S3 から直接読む
 begin
-  revision_response = Net::HTTP.get_response(URI.parse("https://ason.as/revision"))
-  prev_revision = revision_response.body.to_s.strip
+  prev_revision = client.get_object(bucket: bucket, key: "revision").body.read.strip
 rescue StandardError => e
   # アップロードは済んでいるので、ここで止めずに全体を無効化する
   puts "Failed to fetch the previous revision: #{e.class}: #{e.message}"
 end
 puts prev_revision
 
-# 404 の本文や空文字列を revision として git に渡すと、別の範囲の差分が成功扱いで返る
-if revision_response.is_a?(Net::HTTPSuccess) && prev_revision.match?(/\A\h{40}\z/)
+# 空文字列や SHA 以外の値を revision として git に渡すと、別の範囲の差分が成功扱いで返る
+if prev_revision&.match?(/\A\h{40}\z/)
   diff_output, diff_status = Open3.capture2("git", "diff", "--name-only", "#{prev_revision}..HEAD")
 end
 
