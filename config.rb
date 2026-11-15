@@ -79,3 +79,6 @@ end
 
 # アイコンSVGは inline_svg ヘルパーでHTMLに直接埋め込むため、単体ファイルとしては配信しない。
 ignore "images/icons/*.svg"
+
+# CSS はブラウザに長期キャッシュさせるので、内容が変わったら URL も変わるようファイル名にハッシュを付ける
+activate :asset_hash, exts: %w[.css]

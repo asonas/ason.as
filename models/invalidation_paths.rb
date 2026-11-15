@@ -2,10 +2,11 @@
 module InvalidationPaths
   module_function
 
-  # ページの描画処理・ビルド設定・依存関係は、どのページの出力を変えるかをファイル名から辿れない
+  # ページの描画処理・ビルド設定・依存関係は、どのページの出力を変えるかをファイル名から辿れない。CSS はファイル名にハッシュが付き、参照する全ページの HTML が変わる
   SITE_WIDE_DIRECTORIES = %w[
     source/layouts/
     source/images/icons/
+    source/stylesheets/
     models/
   ].freeze
 

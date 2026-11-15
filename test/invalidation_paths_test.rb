@@ -14,6 +14,11 @@ class InvalidationPathsTest < Minitest::Test
     assert_empty InvalidationPaths.for_file("CLAUDE.md")
   end
 
+  # CSS はファイル名にハッシュが付くため、CSS の変更では参照する側のページを無効化する
+  def test_stylesheet_change_invalidates_all_pages
+    assert_equal ["/*"], InvalidationPaths.for_files(["source/stylesheets/site.css"])
+  end
+
   # アイコンSVGは単体配信せずレイアウトへ埋め込むため、SVGのURLではなく全ページを無効化する
   def test_inline_icon_invalidates_all_pages
     assert_equal ["/*"], InvalidationPaths.for_files(["source/images/icons/github.svg"])
