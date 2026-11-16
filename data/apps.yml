@@ -1,7 +1,6 @@
 # トップページの「つくったアプリ」の帯。上から順に並ぶ
 # - slug: 帯の色の class（.app--<slug>）とアイコンのファイル名（images/apps/<slug>.png）
 # - icon_inset: 透過のアイコンで、枠線との間に余白を取るとき true
-# - draft: 説明文が仮のとき true
 # - links: url の無いものは点線の枠で文字だけ出す
 - slug: komado
   name: Komado
@@ -26,7 +25,6 @@
   name: Kikimimi
   platform: macOS / 録音と文字起こし
   description: オンライン会議の音声を自分の Mac で録音し、端末内で文字起こしするアプリ。
-  draft: true
   links:
     - label: リンク未定
 

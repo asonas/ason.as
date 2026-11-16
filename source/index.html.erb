@@ -41,7 +41,7 @@
 <img class="icon<%= " icon--inset" if app.icon_inset %>" src="/images/apps/<%= escape_html(app.slug) %>.png" alt="<%= escape_html(app.name) %> のアイコン" width="96" height="96">
 <div>
 <p class="platform"><%= escape_html(app.platform) %></p>
-<p class="desc"><%= escape_html(app.description) %><% if app.draft %> <span class="draft">仮の文章</span><% end %></p>
+<p class="desc"><%= escape_html(app.description) %></p>
 </div>
 <div class="links">
 <% app.links.each do |link| %>
